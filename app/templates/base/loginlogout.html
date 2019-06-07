@@ -1,0 +1,17 @@
+{% if current_user.is_anonymous %}
+<a href="{{ url_for('login') }} " class="loginbutton">LOG IN</a>
+<a href="{{ url_for('signup') }} " class="signupbutton">SIGN UP</a>
+{% else %}
+<!--<p class="loginbutton">hello {{ current_user }}!</p>-->
+<!--<a href="{{ url_for('events.events_create') }}">Create Event</a>-->
+<img src="{{ url_for('static', filename='images/avatars/'+current_user_avatar+'.png')}}"
+                                 width="50"
+                                 height="50">
+
+<a href="{{ url_for('profile') }}" class="username"> {{ current_user.username }}</a>
+<a href="{{ url_for('profile') }}" class="signupbutton">PROFILE</a>
+<a href="{{ url_for('settings') }}" class="signupbutton">SETTINGS</a>
+<a href="{{ url_for('logout') }}" class="signupbutton">LOG OUT</a>
+{% endif %}
+
+

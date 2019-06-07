@@ -1,0 +1,91 @@
+<header id="topbar-header-section" class="sticky-banner">
+    <div class="container">
+        <div class="nav-header">
+            <!--Top Row-->
+            <div class="nav-one">
+                <div class="nav-one-child">
+                    <a href="{{url_for('index')}}">
+                        <img src="{{ url_for('static', filename='images/logo/QueseekBlackOrange.png')}}"
+                             alt="QueseekLogo"
+                             width="200">
+                    </a>
+                </div>
+                <div class="nav-one-child2">
+                    <!--<form action="/action_page.php">-->
+                        <!--<input type="text" placeholder="Search.." name="search">-->
+                        <!--<input type="image" style="border:none"-->
+                               <!--src="{{ url_for('static', filename='images/icons/search.svg')}}" alt="Submit">-->
+                    <!--</form>-->
+                </div>
+                <div class="nav-one-child3">
+                    {% include "base/loginlogout.html" %}
+                </div>
+            </div>
+            <div class="nav-two" role="navigation">
+                <!--<div id="topbar-logo" role="navigation">-->
+                <ul class="topbar-menu" id="topbar-primary-menu">
+
+                    <!--Home-->
+
+                    {% if page == 'home' %}
+                    <li class="active">
+                        <a href="{{url_for('index')}}">HOME</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{{url_for('index')}}">HOME</a>
+                    </li>
+                    {% endif %}
+
+                    <!--Quest-->
+                    {% if page == 'quest' %}
+                    <li class="active">
+                        <a href="{{url_for('quest')}}">QUEST</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{{url_for('quest')}}">QUEST</a>
+                    </li>
+                    {% endif %}
+
+                    <!--Seek-->
+                    {% if page == 'seek' %}
+                    <li class="active">
+                        <a href="{{url_for('seek')}}">SEEK</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{{url_for('seek')}}">SEEK</a>
+                        <!--<ul class="topbar-sub-menu">-->
+                        <!--<li><a href="#">Family</a></li>-->
+                        <!--<li><a href="#">CSS3 &amp; HTML5</a></li>-->
+                        <!--<li><a href="#">Angular JS</a></li>-->
+                        <!--<li><a href="#">Node JS</a></li>-->
+                        <!--<li><a href="#">Django &amp; Python</a></li>-->
+                        <!--</ul>-->
+                    </li>
+                    {% endif %}
+
+                    <!--FAQ-->
+                    {% if page == 'faq' %}
+                    <li class="active"><a href="{{url_for('faq')}}">FAQ</a></li>
+                    {% else %}
+                    <li><a href="{{url_for('faq')}}">FAQ</a></li>
+                    {% endif %}
+
+                    <!--LEADERBOARD-->
+                    {% if page == 'leaderboard' %}
+                    <li class="active"><a href="{{url_for('leaderboard')}}">LEADERBOARD</a></li>
+                    {% else %}
+                    <li><a href="{{url_for('leaderboard')}}">LEADERBOARD</a></li>
+                    {% endif %}
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- end:header-top -->
+
