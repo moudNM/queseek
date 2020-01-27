@@ -1,218 +1,151 @@
 <!DOCTYPE html>
-
-<!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js"> <!--<![endif]-->
+<html lang="zxx">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="description" content="Queseek">
+    <meta name="keywords" content="Queseek, quest, seek">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Queseek</title>
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico')}}"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Seekers Of Lost Items. Builders of community spirit."/>
-    <meta name="keywords" content="queseek, lost and found, community spirit"/>
-    <meta name="author" content="Queseek"/>
 
-    <!--Fonts Used-->
-    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300'>
-    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Oswald'>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap  --><!--Affects padding and search bar-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
-    <!--affects tables-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css')}}">
-    <!--affects everything else-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-
-    <script src="{{url_for('static', filename='table.js')}}"></script>
-    <!--<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>-->
-    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
-
-    <!--<![endif]&ndash;&gt;-->
-
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/elegant-icons.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/slicknav.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css')}}" type="text/css">
 </head>
 
 <body>
 
-<script>
-    $(document).ready(function () {
-  getPagination('#datatable');
-  $('#maxRows option:last').prop('selected', true).trigger('change');
-});
 
-function getPagination(table) {
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
 
-  $('#maxRows').on('change', function(e) {
-    $('.pagination').html(''); // reset pagination
-    var trnum = 0; // reset tr counter
-    var maxRows = parseInt($(this).val()); // get Max Rows from select option
-    var totalRows = $(table + ' tbody tr').length; // numbers of rows
-    $(table + ' tr:gt(0)').each(function() { // each TR in  table and not the header
-      trnum++; // Start Counter
-      if (trnum > maxRows) { // if tr number gt maxRows
-
-        $(this).hide(); // fade it out
-      }
-      if (trnum <= maxRows) {
-        $(this).show();
-      } // else fade in Important in case if it ..
-    }); //  was fade out to fade it in
-    if (totalRows > maxRows) { // if tr total rows gt max rows option
-      var pagenum = Math.ceil(totalRows / maxRows); // ceil total(rows/maxrows) to get ..
-      //	numbers of pages
-      for (var i = 1; i <= pagenum;) { // for each page append pagination li
-        $('.pagination').append('<li class"wp" data-page="' + i + '">\
-<span>' + i++ + '<span class="sr-only">(current)</span></span>\
-</li>').show();
-      } // end for i
-    } // end if row count > max rows
-    $('.pagination li:first-child').addClass('active'); // add active class to the first li
-    $('.pagination li').on('click', function() { // on click each page
-      var pageNum = $(this).attr('data-page'); // get it's number
-      var trIndex = 0; // reset tr counter
-      $('.pagination li').removeClass('active'); // remove active class from all li
-      $(this).addClass('active'); // add active class to the clicked
-      $(table + ' tr:gt(0)').each(function() { // each tr in table not the header
-        trIndex++; // tr index counter
-        // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
-        if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
-          $(this).hide();
-        } else {
-          $(this).show();
-        } //else fade in
-      }); // end of for each tr in table
-    }); // end of on click pagination list
-
-
-  });
-
-  // end of on select change
-
-
-
-  // END OF PAGINATION
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
-
-<div id="topbar-wrapper">
+<!-- Header Section Begin -->
+<header class="header-section">
 
     {% include "base/topbar.html" %}
+    {% include "base/menu.html" %}
 
-    <div class="topbar-overlay"></div>
-    <div class="topbar-cover2">
-        <div class="desc">
-            <div class="container">
+</header>
+<!-- Header End -->
 
-                <div class="col-sm-1 col-sm-push-1 col-md-1 col-md-push-1">
-                    <div class="post">
-                        <br>
-                        <!--Reward-->
-                        <div class="formtitleformat">Reward</div>
-                        <div class="formlabelformat">{{ seeks[1].reward }}</div>
-                        <br>
-                        <!--Quest-->
-                        <div class="formtitleformat">Seek ID</div>
-                        <div class="formlabelformat">{{ seeks[1].seekId }}</div>
-                        <br>
-                        <!--Item-->
-                        <div class="formtitleformat">Item</div>
-                        <div class="formlabelformat">{{ seeks[1].item }}</div>
-                        <br>
-                        <!--Description-->
-                        <div class="formbigfieldformat">Description</div>
-                        <div class="formlabelformat">{{ seeks[1].description }}</div>
-                        <br>
-                        <!--User-->
-                        <div class="formtitleformat">User</div>
-                        <div class="formlabelformat">{{ seeks[0].username }}</div>
-                        <br>
-                        <!--Posted-->
-                        <div class="formtitleformat">Posted At</div>
-                        <div class="formlabelformat">{{ seeks[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</div>
-                        <br>
-                        <!--Users that completed-->
-                        {% if userscompleted|length > 0 %}
-                        <div class="formautofield">Completed By</div>
-                        {% for row in userscompleted %}
-                        <div class="formnameformat">{{ row[0].username }}</div>
-
-                        {% if not loop.last %}
-                         <div class="formnameformat">,</div>
-                        {% else %}
-                        <div class="formnameformat">.</div>
-                        {% endif %}
-
-                        {% endfor %}
-                        <br>
-                        {% endif %}
-
-                        {% with id=seeks[0].id, qsId=seeks[1].seekId, accepted=accepted, usersaccepted=usersaccepted, completed=completed %}
-                        {% include "base/acceptButton.html" %}
-                        {% endwith %}
-
+<!-- Blog Details Section Begin -->
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="blog-details-inner">
+                    <div class="blog-detail-title">
+                        <h2>SeekID:{{ seeks[1].seekId }}</h2>
+                        <p><span> Reward:</span> {{ seeks[1].reward }} coins </p>
                     </div>
-                </div>
+                    <h5>Posted by: {{ seeks[0].username }}</h5>
+                    <h5>Date posted: {{ seeks[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</h5>
+                    <br>
+                    <h4>Item: {{ seeks[1].item }}</h4>
+                    <h4>Location: {{ seeks[1].location }}</h4>
 
-                <div class="col-sm-1 col-sm-push-7 col-md-1 col-md-push-7">
-                    {% include "base/button.html" %}
-
-                </div>
-            </div>
-            <div class="commentsSection">
-                <h1> Comments </h1>
-                <!--Comment box here-->
-                <form action="{{url_for('seekComment')}}" method="post">
-                    {{ form.description(class_="commentsformformat") }}
-
-                    {{ form.seekId() }}
-                    {{ form.userId() }}
-                    {{ form.is_creator() }}
-
-                    <!--submit comment-->
-                    <br>{{ form.submit() }}<br>
-                </form>
-                <hr>
-                {% for row in comments %}
-                <div class="space">
-                    <div class="'comments_header">{{row[1].username}} [level {{row[2].level}}]
-                    </div>
                     <br>
 
-                    <div class="'comments_description">{{row[0].description}}
+                    <p>{{ seeks[1].description.capitalize() }}</p>
+
+                    <!--Users that completed-->
+                    {% if userscompleted|length > 0 %}
+                    <span>
+
+                    <h5>Completed By: </h5>
+                    {% for row in userscompleted %}
+                    {{ row[1].username }}
+
+                    {% if not loop.last %}
+                    ,
+                    {% else %}
+                    .
+                    {% endif %}
+
+                    {% endfor %}
+
+                    {% endif %}
+                    </span>
+                    {% with id=seeks[0].id, qsId=seeks[1].seekId, accepted=accepted, usersaccepted=usersaccepted,
+                    completed=completed %}
+                    {% include "base/acceptButton.html" %}
+                    {% endwith %}
+
+
+                    <div class="leave-comment">
+                        <h4>Leave A Comment</h4>
+                        <form action="{{url_for('seekComment')}}" method="post" class="comment-form">
+                            <div class="row">
+
+                                <div class="col-lg-12">
+
+                                    {{ form.seekId() }}
+                                    {{ form.userId() }}
+                                    {{ form.is_creator() }}
+                                    {{ form.description(class_="commentsformformat") }}
+                                    {{ form.submit(class_="site-btn")}}
+                                </div>
+                            </div>
+                        </form>
+
+                        {% for row in comments %}
+
+                        <div class="posted-by">
+                            <div class="pb-pic">
+                                <img src="img/blog/post-by.png" alt="">
+                            </div>
+
+
+                            <div class="pb-text">
+
+                                <h5>{{row[1].username}}</h5>
+
+                                <p>{{row[0].description.capitalize()}}</p>
+                                <br>
+                                <h6>{{row[0].posted_at.strftime('%d/%m/%Y %I:%M %p')}}</h6>
+                            </div>
+                        </div>
+
+                        <div class="pb-text">
+                            <h5></h5>
+                            <p></p>
+                        </div>
+
+                        {% endfor %}
                     </div>
                 </div>
-                {% endfor %}
-
             </div>
         </div>
-        <!--</div>-->
-
     </div>
-    <!-- END topbar-page -->
+</section>
+<!-- Blog Details Section End -->
 
-</div>
-<!-- END topbar-wrapper -->
-
+<!-- Js Plugins -->
+<script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/jquery.countdown.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/jquery.nice-select.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/jquery.zoom.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/jquery.dd.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/jquery.slicknav.js')}}"></script>
+<script src="{{url_for('static', filename='js/owl.carousel.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/main.js')}}"></script>
+<script src="{{url_for('static', filename='js/table.js')}}"></script>
 </body>
+
 </html>

@@ -1,72 +1,107 @@
-<!--Quest Creator's View-->
-{% if not current_user.is_authenticated %}<!--1st degree if-->
-<div class="pleaselogin">Please Log In Or Sign Up To Accept Quests or Seeks</div>
-<a href="{{ url_for('login') }} " class="loginbutton">LOG IN</a>
-<a href="{{ url_for('signup') }} " class="signupbutton">SIGN UP</a>
+<div class="tag-share">
+    <div class="details-tag">
 
-{% else %}
+        <!--Quest Creator's View-->
+        {% if not current_user.is_authenticated %}<!--1st degree if-->
+        <div class="pleaselogin">Please Log In Or Sign Up To Accept Quests or Seeks</div>
+        <a href="{{ url_for('login') }} " class="primary-btn">LOG IN</a>
+        <a href="{{ url_for('signup') }} " class="primary-btn">SIGN UP</a>
 
-{% if current_user.id == id %}<!--2nd degree if-->
+        {% else %}
 
-<!--All users that accepted the quest-->
-<div class="pleaselogin">Select user that completed quest:</div>
-<form action="{{ url_for('complete', id=qsId) }}" method="post">
-{% for row in usersaccepted -%}
-    <button class="signupbutton" name="user" type="submit" value="{{ row[0].id }}"/>
-    {{ row[0].username}}
-    </button>
-{% endfor %}
-</form>
+        <ul>
+            {% if current_user.id == id %}<!--2nd degree if-->
 
-<!--Edit quest option-->
-<form action="{{ url_for('edit', id=qsId) }}" method="post" >
-    <button class="signupbutton" type="submit" value=""/>
-    Edit
-    </button>
-</form>
+            {% if usersaccepted|length > 0 %}
 
-<!--Delete quest option-->
-<form action="{{ url_for('delete', id=qsId) }}" method="post">
-    <button class="signupbutton" type="submit" value=""/>
-    Delete
-    </button>
-</form>
+            <!--All users that accepted the quest-->
+            <div class="pleaselogin">Select user that completed quest:</div>
+            <form action="{{ url_for('complete', id=qsId) }}" method="post">
 
 
-
-<!--Non Quest Creator's View-->
-{% else %}
-
-<!--Already accepted quest-->
-{% if accepted == True %}<!--3nd degree if-->
-
-<!--If already completed quest-->
-{% if completed == True %}<!--4th degree if-->
-
-{% else %}
-
-<form action="{{ url_for('forfeit', id=qsId) }}" method="post">
-    <button class="signupbutton" type="submit" value=""/>
-    Forfeit
-    </button>
-</form>
-{% endif %}<!--end 4th degree if-->
-
-<!--Not yet accepted quest-->
-{% else %}
-<form action="{{ url_for('accept', id=qsId) }}" method="post">
-    <button class="signupbutton" type="submit" value=""/>
-    Accept
-    </button>
-</form>
-{% endif %}<!--end 3rd degree if-->
-{% endif %}<!--end 2nd degree if-->
+                {% for row in usersaccepted -%}
+                <button class="signupbutton" name="user" type="submit" value="{{ row[0].id }}"/>
+                {{ row[0].username}}
+                </button>
+                {% endfor %}
 
 
-{% if qsId.startswith('Q') %}<!--2nd degree if-->
-<a href="{{ url_for('quest') }}" class="signupbutton">Back</a>
-{% elif qsId.startswith('S') %}
-<a href="{{ url_for('seek') }}" class="signupbutton">Back</a>
-{% endif %}<!--end 2nd degree if-->
+            </form>
 
-{% endif %}<!--end 1st degree if-->
+            <br>
+
+            {% endif %}
+
+
+            <!--Edit quest option-->
+
+            <li>
+
+                <form action="{{ url_for('edit', id=qsId) }}" method="post">
+
+                    <button class="primary-btn" type="submit" value=""/>
+                    Edit
+                    </button>
+                </form>
+
+            </li>
+
+            <li>
+                <!--Delete quest option-->
+                <form action="{{ url_for('delete', id=qsId) }}" method="post">
+                    <button class="primary-btn" type="submit" value=""/>
+                    Delete
+                    </button>
+                </form>
+            </li>
+
+            <!--Non Quest Creator's View-->
+            {% else %}
+
+            <!--Already accepted quest-->
+            {% if accepted == True %}<!--3nd degree if-->
+
+            <!--If already completed quest-->
+            {% if completed == True %}<!--4th degree if-->
+
+            {% else %}
+
+            <li>
+                <form action="{{ url_for('forfeit', id=qsId) }}" method="post">
+                    <button class="primary-btn" type="submit" value=""/>
+                    Forfeit
+                    </button>
+                </form>
+
+            </li>
+            {% endif %}<!--end 4th degree if-->
+
+            <!--Not yet accepted quest-->
+            {% else %}
+            <li>
+                <form action="{{ url_for('accept', id=qsId) }}" method="post">
+                    <button class="primary-btn" type="submit" value=""/>
+                    Accept
+                    </button>
+                </form>
+            </li>
+
+            {% endif %}<!--end 3rd degree if-->
+            {% endif %}<!--end 2nd degree if-->
+
+            <li>
+                {% if qsId.startswith('Q') %}<!--2nd degree if-->
+                <a href="{{ url_for('quest') }}" class="primary-btn">Back</a>
+                {% elif qsId.startswith('S') %}
+                <a href="{{ url_for('seek') }}" class="primary-btn">Back</a>
+            </li>
+            {% endif %}<!--end 2nd degree if-->
+
+            {% endif %}<!--end 1st degree if-->
+
+        </ul>
+    </div>
+
+</div>
+
+

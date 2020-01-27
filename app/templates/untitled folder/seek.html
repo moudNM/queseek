@@ -31,12 +31,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
 
     <script src="{{url_for('static', filename='js/table.js')}}"></script>
+    <!--<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
 
-    <!--for faq-->
-    <script src="{{url_for('static', filename='js/modernizr.js')}}"></script>
-
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-
+    <!--<![endif]&ndash;&gt;-->
 
 </head>
 
@@ -45,7 +43,7 @@
 <script>
     $(document).ready(function () {
   getPagination('#datatable');
-  $('#maxRows option:last').prop('selected', true).trigger('change');
+  $('#maxRows option:first').prop('selected', true).trigger('change');
 });
 
 function getPagination(table) {
@@ -101,105 +99,29 @@ function getPagination(table) {
   // END OF PAGINATION
 }
 
-
-
-
-
-
-
-
-
-
-
 </script>
 
 <div id="topbar-wrapper">
 
     {% include "base/topbar.html" %}
 
-    {% if current_user.is_anonymous %}
-    <div class="topbar-cover">
-        <div class="desc">
-            <div class="row">
-
-                <!--<div class="desc2 animate-box">-->
-                <div class="col-sm-1 col-sm-push-3 col-md-6 col-md-push-3">
-
-
-                    <!--<div class="col-sm-7 col-sm-push-1 col-md-7 col-md-push-1">-->
-                    <h6>Always losing your belongings?</h6>
-                    <h6>Need help running errands?</h6>
-                    <h6>Love helping others out?</h6>
-                    <!--<h3>Come join our community of seekers!</h3>-->
-                    <div class="join">Come join our community of seekers!
-                    </div>
-                    <button class="signupbuttonhome">SIGN UP</button>
-
-                    <!-- <p><a class="btn btn-primary btn-lg" href="#">Get Started</a></p> -->
-
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-    {% else %}
+    <div class="topbar-overlay"></div>
     <div class="topbar-cover2">
         <div class="desc">
-
-            <section class="cd-faq">
-
-                <div class="cd-faq-categories">
-
-                    {% if page == 'ys' %}
-                    <a href="{{url_for('home_your_quests')}}">Your Quests</a>
-                    <a class="active" href="{{url_for('home_your_seeks')}}">Your Seeks</a>
-                    <a href="{{url_for('home_quests_accepted')}}">Quests Accepted</a>
-                    <a href="{{url_for('home_seeks_accepted')}}">Seeks Accepted</a>
-
-                    {% elif page == 'qa' %}
-                    <a href="{{url_for('home_your_quests')}}">Your Quests</a>
-                    <a href="{{url_for('home_your_seeks')}}">Your Seeks</a>
-                    <a class="active" href="{{url_for('home_quests_accepted')}}">Quests Accepted</a>
-                    <a href="{{url_for('home_seeks_accepted')}}">Seeks Accepted</a>
-
-                    {% elif page == 'sa' %}
-                    <a href="{{url_for('home_your_quests')}}">Your Quests</a>
-                    <a href="{{url_for('home_your_seeks')}}">Your Seeks</a>
-                    <a href="{{url_for('home_quests_accepted')}}">Quests Accepted</a>
-                    <a class="active" href="{{url_for('home_seeks_accepted')}}">Seeks Accepted</a>
-
-                    {% else %}
-                    <a class="active" href="{{url_for('home_your_quests')}}">Your Quests</a>
-                    <a href="{{url_for('home_your_seeks')}}">Your Seeks</a>
-                    <a href="{{url_for('home_quests_accepted')}}">Quests Accepted</a>
-                    <a href="{{url_for('home_seeks_accepted')}}">Seeks Accepted</a>
-
-                    {% endif %}
+            <div class="container">
+                <div class="row">
+                    <div class="input col-md-1 col-xs-2">
+                        <!--		Show Numbers Of Rows 		-->
+                        <select class="form-control" name="state" id="maxRows">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                 </div>
-                <!--<div class="cd-faq-items">-->
-                <ul class="cd-faq-group">
 
-                    {% if page == 'ys' %}
-                    <div class="cd-faq-title"><h2>Your Seeks</h2></div>
-                    {% elif page == 'qa' %}
-                    <div class="cd-faq-title"><h2>Quests Accepted</h2></div>
-                    {% elif page == 'sa' %}
-                    <div class="cd-faq-title"><h2>Seeks Accepted</h2></div>
-                    {% else %}
-                    <div class="cd-faq-title"><h2>Your Quests</h2></div>
-                    {% endif %}
-
-                    <select class="form-control" name="state" id="maxRows">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                    </select>
-
+                <div class="col-sm-1 col-sm-push-1 col-md-1 col-md-push-1">
                     <div class="row">
-
                         <table id="datatable" class="display dataTable no-footer" cellspacing="0"
                                width="100%" role="grid"
                                aria-describedby="datatable_info">
@@ -214,7 +136,7 @@ function getPagination(table) {
                                 <th style="width: 80px;" class="sorting" tabindex="0"
                                     aria-controls="datatable" rowspan="1"
                                     colspan="1"
-                                    aria-label="QUEST ID: activate to sort column ascending">
+                                    aria-label="SEEK ID: activate to sort column ascending">
                                     QUEST ID
                                 </th>
                                 <th style="width: 80px;" class="sorting" tabindex="0"
@@ -243,18 +165,13 @@ function getPagination(table) {
                             </thead>
                             <tbody>
 
-
-                            {% for row in rows %}
+                            {% for row in seeks %}
 
                             <tr role="row" class="odd">
                                 <!--Reward-->
                                 <td>{{ row[1].reward }}</td>
-                                <!--Quest/SeekID-->
-                                {% if page == 'ys' or page == 'sa' %}
+                                <!--QuestID-->
                                 <td><a href='/seek/{{row[1].seekId}}'>{{ row[1].seekId}}</a></td>
-                                {% else %}
-                                <td><a href='/quest/{{row[1].questId}}'>{{ row[1].questId}}</a></td>
-                                {% endif %}
                                 <!--Item-->
                                 <td>{{ row[1].item }}</td>
                                 <!--Description-->
@@ -276,25 +193,18 @@ function getPagination(table) {
                             </nav>
                         </div>
                     </div>
+                </div>
 
+                <div class="col-sm-1 col-sm-push-7 col-md-1 col-md-push-7">
+                    {% include "base/button.html" %}
 
-                </ul>
-
-                <div class="inlineblock">{% include "base/button.html" %}</div>
-
-                <!--Your Quests-->
-
-                <a href="#0" class="cd-close-panel">Close</a>
-            </section> <!-- cd-faq -->
-
-
+                </div>
+            </div>
         </div>
-    </div>
-    {% endif %}
-    <!--</div>-->
+        <!--</div>-->
 
-</div>
-<!-- END topbar-page -->
+    </div>
+    <!-- END topbar-page -->
 
 </div>
 <!-- END topbar-wrapper -->

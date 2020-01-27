@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Queseek</title>
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico')}}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Seekers Of Lost Items. Builders of community spirit."/>
+    <meta name="keywords" content="queseek, lost and found, community spirit"/>
+    <meta name="author" content="Queseek"/>
+
+    <!--Fonts Used-->
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300'>
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Oswald'>
+
+    <!-- Bootstrap  --><!--Affects padding and search bar-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+    <!--affects tables-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css')}}">
+    <!--affects everything else-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+
+    <!--<![endif]&ndash;&gt;-->
+
+
+</head>
+<body>
+
+
+<div id="topbar-wrapper">
+
+    {% include "base/topbar.html" %}
+
+    <div class="topbar-overlay"></div>
+    {% if not current_user.is_anonymous %}
+    <div class="topbar-cover2">
+
+        <br/>
+        {% if page == 'sf'%}
+        <h1>SUBMIT A SEEK</h1>
+
+        <form action="{{url_for('forms_seek')}}" method="post">
+            <br>
+            {{ form.item.label(class_="formlabelformat") }} {{ form.item(class_="formfieldformat") }}
+            <br>
+            {{ form.location.label(class_="formlabelformat") }} {{ form.location(class_="formfieldformat") }}
+            <br>
+            {{ form.description.label(class_="formlabelformat") }} {{ form.description(class_="formbigfieldformat")
+            }}
+            <br> {{ form.submit(class="formbutton") }}<br>
+        </form>
+
+
+        {% else %}
+        <h1>SUBMIT A QUEST</h1>
+
+        <form action="{{url_for('forms_quest')}}" method="post">
+            {{ form.type.label(class_="formlabelformat") }} {{ form.type(class_="formfieldformat") }}
+            <br>
+            {{ form.item.label(class_="formlabelformat") }} {{ form.item(class_="formfieldformat") }}
+            <br>
+            {{ form.location.label(class_="formlabelformat") }} {{ form.location(class_="formfieldformat") }}
+            <br>
+            {{ form.description.label(class_="formlabelformat") }} {{ form.description(class_="formbigfieldformat")
+            }}
+            <br> {{ form.submit(class="formbutton") }}<br>
+        </form>
+        {% endif %}
+
+
+    </div>
+
+    {% else %}
+
+    {% endif %}
+    <!--</div>-->
+
+    <footer>
+        <div id="footer">
+            <div class="container">
+                <div class="row row-bottom-padded-md">
+                    <!--<div class="col-md-2 col-sm-2 col-xs-12 topbar-footer-link">-->
+                    <!--<h3>About Travel</h3>-->
+                    <!--<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,-->
+                    <!--there live the blind texts.</p>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 col-sm-2 col-xs-12 topbar-footer-link">-->
+                    <!--<h3>Top Flights Routes</h3>-->
+                    <!--<ul>-->
+                    <!--<li><a href="#">Manila flights</a></li>-->
+                    <!--<li><a href="#">Dubai flights</a></li>-->
+                    <!--<li><a href="#">Bangkok flights</a></li>-->
+                    <!--<li><a href="#">Tokyo Flight</a></li>-->
+                    <!--<li><a href="#">New York Flights</a></li>-->
+                    <!--</ul>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 col-sm-2 col-xs-12 topbar-footer-link">-->
+                    <!--<h3>Top Hotels</h3>-->
+                    <!--<ul>-->
+                    <!--<li><a href="#">Boracay Hotel</a></li>-->
+                    <!--<li><a href="#">Dubai Hotel</a></li>-->
+                    <!--<li><a href="#">Singapore Hotel</a></li>-->
+                    <!--<li><a href="#">Manila Hotel</a></li>-->
+                    <!--</ul>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 col-sm-2 col-xs-12 topbar-footer-link">-->
+                    <!--<h3>Interest</h3>-->
+                    <!--<ul>-->
+                    <!--<li><a href="#">Beaches</a></li>-->
+                    <!--<li><a href="#">Family Travel</a></li>-->
+                    <!--<li><a href="#">Budget Travel</a></li>-->
+                    <!--<li><a href="#">Food &amp; Drink</a></li>-->
+                    <!--<li><a href="#">Honeymoon and Romance</a></li>-->
+                    <!--</ul>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 col-sm-2 col-xs-12 topbar-footer-link">-->
+                    <!--<h3>Best Places</h3>-->
+                    <!--<ul>-->
+                    <!--<li><a href="#">Boracay Beach</a></li>-->
+                    <!--<li><a href="#">Dubai</a></li>-->
+                    <!--<li><a href="#">Singapore</a></li>-->
+                    <!--<li><a href="#">Hongkong</a></li>-->
+                    <!--</ul>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-2 col-sm-2 col-xs-12 topbar-footer-link">-->
+                    <!--<h3>Affordable</h3>-->
+                    <!--<ul>-->
+                    <!--<li><a href="#">Food &amp; Drink</a></li>-->
+                    <!--<li><a href="#">Fare Flights</a></li>-->
+                    <!--</ul>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- END topbar-page -->
+
+</div>
+<!-- END topbar-wrapper -->
+
+</body>
+</html>

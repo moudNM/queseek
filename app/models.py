@@ -105,7 +105,7 @@ class QuestComments(UserMixin, Base):
     questId = db.Column(db.String, ForeignKey('quests.questId'), primary_key=True)
     userId = db.Column(db.String, ForeignKey('users.id'), primary_key=True)
 
-    description = db.Column(db.String(255))
+    description = db.Column(db.String(255), nullable=False)
     # 0 is false, # 1 is true
     is_creator = db.Column(db.Integer, nullable=False, default=0)
     posted_at = db.Column(DateTime(timezone=True), default=datetime.now(pytz.timezone('Asia/Singapore')))

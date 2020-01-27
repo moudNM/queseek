@@ -54,18 +54,10 @@ from app.models import User, UserProfile
 from app.models import Quest, QuestsAccepted, QuestCoinsTransaction, QuestComments
 from app.models import Seek, SeeksAccepted, SeekCoinsTransaction, SeekComments
 from app.models import Avatars, UserAvatars
-from app.forms import LoginForm, SignUpForm, QuestForm, QuestCommentsForm, SeekCommentsForm
+from app.forms import LoginForm, SignUpForm, QuestForm, SeekForm, QuestCommentsForm, SeekCommentsForm
 
 db.create_all()
 
-
-# u = User()
-# u.add()
-# u.save()
-#
-# q = Quest()
-# q.add()
-# q.save()
 
 @app.context_processor
 def inject_dict_for_all_templates():
@@ -106,14 +98,14 @@ def complete(id):
             coinsToNext = userProfile.coinsCollected % 20
 
             if (int(coinsAfter / 20) > int(coinsBefore / 20)):
-                    db.session.query(UserProfile).filter(UserProfile.id == user.id). \
+                db.session.query(UserProfile).filter(UserProfile.id == user.id). \
                     update({"level": UserProfile.level + 1})
 
-            if(coinsToNext == 0):
+            if (coinsToNext == 0):
                 coinsToNext = 20
 
             db.session.query(UserProfile).filter(UserProfile.id == user.id). \
-                    update({"coinsToNext": coinsToNext})
+                update({"coinsToNext": coinsToNext})
 
             db.session.commit()
 
@@ -203,8 +195,8 @@ def index():
                          .filter(Quest.state == 0)
                          .order_by(Quest.posted_at.desc())
                          .all())
-        return render_template('home.html', rows=questsCreated, page='home')
-    return render_template('home.html', rows=None, page='home')
+        return render_template('index.html', rows=questsCreated, page='home')
+    return render_template('index.html', rows=None, page='home')
 
 
 @app.route('/home')
@@ -226,7 +218,7 @@ def home_your_seeks():
                         .order_by(Seek.posted_at.desc())
                         .all())
 
-        return render_template('home.html', rows=seeksCreated, page='ys')
+        return render_template('index.html', rows=seeksCreated, page='ys')
 
     return index()
 
@@ -241,7 +233,7 @@ def home_quests_accepted():
                           .order_by(Quest.posted_at.desc())
                           .all())
 
-        return render_template('home.html', rows=questsAccepted, page='qa')
+        return render_template('index.html', rows=questsAccepted, page='qa')
 
     return index()
 
@@ -256,7 +248,7 @@ def home_seeks_accepted():
                          .order_by(Seek.posted_at.desc())
                          .all())
 
-        return render_template('home.html', rows=seeksAccepted, page='sa')
+        return render_template('index.html', rows=seeksAccepted, page='sa')
 
     return index()
 
@@ -399,7 +391,7 @@ def seek():
          .filter(Seek.state == 0)
          .order_by(Seek.posted_at.desc())
          .all())
-    return render_template('seek.html', seeks=q, page='seek')
+    return render_template('seek.html', rows=q, page='seek')
 
 
 @app.route('/seek/<id>')
@@ -531,14 +523,14 @@ def forms_quest():
         description = request.form['description']
         type = request.form['type']
         user = User.query.filter_by(id=current_user.get_id()).first()
-
+        print('here', item)
         quest = Quest(questId=questId, reward=reward,
                       item=item, location=location,
                       description=description, userId=user.id,
                       type=type)
         db.session.add(quest)
         db.session.commit()
-        return redirect(url_for('quest'))
+        return redirect(url_for('nextQuest', id=questId, code=307))
 
     else:
         return render_template('forms.html', form=form2)
@@ -571,13 +563,13 @@ def forms_seek():
         location = request.form['location']
         description = request.form['description']
         user = User.query.filter_by(id=current_user.get_id()).first()
-
+        print('here', item)
         seek = Seek(seekId=seekId, reward=reward,
                     item=item, location=location,
                     description=description, userId=user.id)
         db.session.add(seek)
         db.session.commit()
-        return redirect(url_for('seek'))
+        return redirect(url_for('nextSeek', id=seekId, code=307))
 
     else:
         return render_template('forms.html', form=form2, page='sf')
@@ -594,6 +586,7 @@ def edit(id):
             location = request.form['location']
             description = request.form['description']
 
+            print(id)
             if id.startswith('Q'):
                 # make changes to Quest
                 db.session.query(Quest) \
@@ -607,14 +600,41 @@ def edit(id):
                     update({"description": description})
                 db.session.commit()
                 print('cde')
-                return redirect(url_for('quest', id=id, code=307))
+                return redirect(url_for('nextQuest', id=id, code=307))
+
+            elif id.startswith('S'):
+                print('here')
+                # make changes to Seek
+                db.session.query(Seek) \
+                    .filter(Seek.seekId == id). \
+                    update({"item": item})
+                db.session.query(Seek) \
+                    .filter(Seek.seekId == id). \
+                    update({"location": location})
+                db.session.query(Seek) \
+                    .filter(Seek.seekId == id). \
+                    update({"description": description})
+                db.session.commit()
+                print('cde')
+                return redirect(url_for('nextSeek', id=id, code=307))
         except:
-            quest = Quest.query.filter_by(questId=id).first()
-            form = QuestForm()
-            form.item.data = quest.item
-            form.location.data = quest.location
-            form.description.data = quest.description
-            return render_template('edit.html', id=id, form=form, code=307)
+            if id.startswith('Q'):
+                quest = Quest.query.filter_by(questId=id).first()
+                form = QuestForm()
+                form.item.data = quest.item
+                form.location.data = quest.location
+                form.description.data = quest.description
+                return render_template('edit.html', id=id, form=form, code=307)
+
+            elif id.startswith('S'):
+                print('error')
+                seek = Seek.query.filter_by(seekId=id).first()
+                form = SeekForm()
+                form.item.data = seek.item
+                form.location.data = seek.location
+                form.description.data = seek.description
+                return render_template('edit.html', id=id, form=form, code=307)
+
 
 
 @app.route('/faq')
@@ -884,7 +904,6 @@ def create():
     for i in avatar_data:
         u = Avatars(avatarId=i[0], name=i[1], coinsRequired=i[2])
         db.session.add(u)
-
 
     # give money etc
     # db.session.query(UserProfile).filter(UserProfile.id == current_user.id). \

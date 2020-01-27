@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Queseek</title>
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico')}}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Seekers Of Lost Items. Builders of community spirit."/>
+    <meta name="keywords" content="queseek, lost and found, community spirit"/>
+    <meta name="author" content="Queseek"/>
+
+    <!--Fonts Used-->
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300'>
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Oswald'>
+
+    <!-- Bootstrap  --><!--Affects padding and search bar-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+    <!--affects tables-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css')}}">
+    <!--affects everything else-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+
+    <!--<![endif]&ndash;&gt;-->
+
+
+</head>
+<body>
+
+
+<div id="topbar-wrapper">
+
+    {% include "base/topbar.html" %}
+
+    <div class="topbar-overlay"></div>
+    {% if current_user.is_anonymous %}
+    <div class="topbar">
+
+        <br/>
+
+        <h1>SIGN UP</h1>
+        <div class="line">Already a member? <a href="{{ url_for('login') }} ">LOG IN</a>
+        </div>
+        <form action="{{url_for('signup')}}" method="post">
+            <br> {{ form.email.label(class_="formlabelformat") }} {{ form.email(class_="form-style") }}
+            <br> {{ form.username.label(class_="formlabelformat") }} {{ form.username(class_="form-style") }}
+            <br> {{ form.password.label(class_="formlabelformat") }} {{ form.password(class_="form-style") }}
+            <br> {{ form.confirm.label(class_="formlabelformat") }} {{ form.confirm(class_="form-style") }}
+            <br><br>
+            {{ form.submit(class_="formbutton") }}<br>
+        </form>
+    </div>
+    {% else %}
+
+    {% endif %}
+    <!--</div>-->
+
+
+</div>
+<!-- END topbar-page -->
+
+</div>
+<!-- END topbar-wrapper -->
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Queseek</title>
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/icons/favicon.ico')}}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Seekers Of Lost Items. Builders of community spirit."/>
+    <meta name="keywords" content="queseek, lost and found, community spirit"/>
+    <meta name="author" content="Queseek"/>
+
+    <!--Fonts Used-->
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300'>
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Oswald'>
+
+    <!-- Bootstrap  --><!--Affects padding and search bar-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css')}}">
+    <!--affects tables-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css')}}">
+    <!--affects everything else-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+
+    <script src="{{url_for('static', filename='js/table.js')}}"></script>
+
+    <!--for faq-->
+    <script src="{{url_for('static', filename='js/modernizr.js')}}"></script>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+
+</head>
+
+<body>
+
+<script>
+    $(document).ready(function () {
+  getPagination('#datatable');
+  $('#maxRows option:last').prop('selected', true).trigger('change');
+});
+
+function getPagination(table) {
+
+  $('#maxRows').on('change', function(e) {
+    $('.pagination').html(''); // reset pagination
+    var trnum = 0; // reset tr counter
+    var maxRows = parseInt($(this).val()); // get Max Rows from select option
+    var totalRows = $(table + ' tbody tr').length; // numbers of rows
+    $(table + ' tr:gt(0)').each(function() { // each TR in  table and not the header
+      trnum++; // Start Counter
+      if (trnum > maxRows) { // if tr number gt maxRows
+
+        $(this).hide(); // fade it out
+      }
+      if (trnum <= maxRows) {
+        $(this).show();
+      } // else fade in Important in case if it ..
+    }); //  was fade out to fade it in
+    if (totalRows > maxRows) { // if tr total rows gt max rows option
+      var pagenum = Math.ceil(totalRows / maxRows); // ceil total(rows/maxrows) to get ..
+      //	numbers of pages
+      for (var i = 1; i <= pagenum;) { // for each page append pagination li
+        $('.pagination').append('<li class"wp" data-page="' + i + '">\
+<span>' + i++ + '<span class="sr-only">(current)</span></span>\
+</li>').show();
+      } // end for i
+    } // end if row count > max rows
+    $('.pagination li:first-child').addClass('active'); // add active class to the first li
+    $('.pagination li').on('click', function() { // on click each page
+      var pageNum = $(this).attr('data-page'); // get it's number
+      var trIndex = 0; // reset tr counter
+      $('.pagination li').removeClass('active'); // remove active class from all li
+      $(this).addClass('active'); // add active class to the clicked
+      $(table + ' tr:gt(0)').each(function() { // each tr in table not the header
+        trIndex++; // tr index counter
+        // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+        if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
+          $(this).hide();
+        } else {
+          $(this).show();
+        } //else fade in
+      }); // end of for each tr in table
+    }); // end of on click pagination list
+
+
+  });
+
+  // end of on select change
+
+
+
+  // END OF PAGINATION
+}
+
+
+
+</script>
+
+<div id="topbar-wrapper">
+
+    {% include "base/topbar.html" %}
+
+    {% if current_user.is_anonymous %}
+    <div class="topbar-cover">
+        <div class="desc">
+            <div class="row">
+
+                <!--<div class="desc2 animate-box">-->
+                <div class="col-sm-1 col-sm-push-3 col-md-6 col-md-push-3">
+
+
+                    <!--<div class="col-sm-7 col-sm-push-1 col-md-7 col-md-push-1">-->
+                    <h6>Always losing your belongings?</h6>
+                    <h6>Need help running errands?</h6>
+                    <h6>Love helping others out?</h6>
+                    <!--<h3>Come join our community of seekers!</h3>-->
+                    <div class="join">Come join our community of seekers!
+                    </div>
+                    <button class="signupbuttonhome">SIGN UP</button>
+
+                    <!-- <p><a class="btn btn-primary btn-lg" href="#">Get Started</a></p> -->
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    {% else %}
+    <div class="topbar-cover2">
+        <div class="desc">
+
+            <section class="cd-faq">
+
+                <div class="cd-faq-categories">
+
+                    {% if page == 'ys' %}
+                    <a href="{{url_for('home_your_quests')}}">Your Quests</a>
+                    <a class="active" href="{{url_for('home_your_seeks')}}">Your Seeks</a>
+                    <a href="{{url_for('home_quests_accepted')}}">Quests Accepted</a>
+                    <a href="{{url_for('home_seeks_accepted')}}">Seeks Accepted</a>
+
+                    {% elif page == 'qa' %}
+                    <a href="{{url_for('home_your_quests')}}">Your Quests</a>
+                    <a href="{{url_for('home_your_seeks')}}">Your Seeks</a>
+                    <a class="active" href="{{url_for('home_quests_accepted')}}">Quests Accepted</a>
+                    <a href="{{url_for('home_seeks_accepted')}}">Seeks Accepted</a>
+
+                    {% elif page == 'sa' %}
+                    <a href="{{url_for('home_your_quests')}}">Your Quests</a>
+                    <a href="{{url_for('home_your_seeks')}}">Your Seeks</a>
+                    <a href="{{url_for('home_quests_accepted')}}">Quests Accepted</a>
+                    <a class="active" href="{{url_for('home_seeks_accepted')}}">Seeks Accepted</a>
+
+                    {% else %}
+                    <a class="active" href="{{url_for('home_your_quests')}}">Your Quests</a>
+                    <a href="{{url_for('home_your_seeks')}}">Your Seeks</a>
+                    <a href="{{url_for('home_quests_accepted')}}">Quests Accepted</a>
+                    <a href="{{url_for('home_seeks_accepted')}}">Seeks Accepted</a>
+
+                    {% endif %}
+                </div>
+                <!--<div class="cd-faq-items">-->
+                <ul class="cd-faq-group">
+
+                    {% if page == 'ys' %}
+                    <div class="cd-faq-title"><h2>Your Seeks</h2></div>
+                    {% elif page == 'qa' %}
+                    <div class="cd-faq-title"><h2>Quests Accepted</h2></div>
+                    {% elif page == 'sa' %}
+                    <div class="cd-faq-title"><h2>Seeks Accepted</h2></div>
+                    {% else %}
+                    <div class="cd-faq-title"><h2>Your Quests</h2></div>
+                    {% endif %}
+
+                    <select class="form-control" name="state" id="maxRows">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+
+                    <div class="row">
+
+                        <table id="datatable" class="display dataTable no-footer" cellspacing="0"
+                               width="100%" role="grid"
+                               aria-describedby="datatable_info">
+
+                            <thead>
+                            <tr role="row">
+                                <th style="width: 40px;" class="sorting_desc" tabindex="0"
+                                    aria-controls="datatable" rowspan="1"
+                                    colspan="1" aria-sort="descending"
+                                    aria-label="REWARD: activate to sort column ascending">REWARD
+                                </th>
+                                <th style="width: 80px;" class="sorting" tabindex="0"
+                                    aria-controls="datatable" rowspan="1"
+                                    colspan="1"
+                                    aria-label="QUEST ID: activate to sort column ascending">
+                                    QUEST ID
+                                </th>
+                                <th style="width: 80px;" class="sorting" tabindex="0"
+                                    aria-controls="datatable" rowspan="1"
+                                    colspan="1"
+                                    aria-label="ITEM: activate to sort column ascending">ITEM
+                                </th>
+                                <th style="width: 200px;" class="sorting" tabindex="0"
+                                    aria-controls="datatable" rowspan="1"
+                                    colspan="1"
+                                    aria-label=" DESCRIPTION: activate to sort column ascending">DESCRIPTION
+                                </th>
+                                <th style="width: 80px;" class="sorting" tabindex="0"
+                                    aria-controls="datatable" rowspan="1"
+                                    colspan="1"
+                                    aria-label="USER: activate to sort column ascending">USER
+                                </th>
+                                <th style="width: 50px;" class="sorting" tabindex="0"
+                                    aria-controls="datatable" rowspan="1"
+                                    colspan="1"
+                                    aria-label="DATE POSTED: activate to sort column ascending">DATE POSTED
+                                </th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+
+                            {% for row in rows %}
+
+                            <tr role="row" class="odd">
+                                <!--Reward-->
+                                <td>{{ row[1].reward }}</td>
+                                <!--Quest/SeekID-->
+                                {% if page == 'ys' or page == 'sa' %}
+                                <td><a href='/seek/{{row[1].seekId}}'>{{ row[1].seekId}}</a></td>
+                                {% else %}
+                                <td><a href='/quest/{{row[1].questId}}'>{{ row[1].questId}}</a></td>
+                                {% endif %}
+                                <!--Item-->
+                                <td>{{ row[1].item }}</td>
+                                <!--Description-->
+                                <td>{{ row[1].description }}</td>
+                                <!--Username-->
+                                <td>{{ row[0].username }}</td>
+                                <!--Posted At-->
+                                <td>{{ row[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</td>
+
+                            </tr>
+                            {% endfor %}
+
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                        <div>
+                            <nav>
+                                <ul class="pagination"></ul>
+                            </nav>
+                        </div>
+                    </div>
+
+
+                </ul>
+
+                <div class="inlineblock">{% include "base/button.html" %}</div>
+
+                <!--Your Quests-->
+
+                <a href="#0" class="cd-close-panel">Close</a>
+            </section> <!-- cd-faq -->
+
+
+        </div>
+    </div>
+    {% endif %}
+    <!--</div>-->
+
+</div>
+<!-- END topbar-page -->
+
+</div>
+<!-- END topbar-wrapper -->
+
+</body>
+</html>
