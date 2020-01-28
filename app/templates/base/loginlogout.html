@@ -1,16 +1,38 @@
-{% if current_user.is_anonymous %}
-<a href="{{ url_for('signup') }} " class="login-panel">SIGN UP</a>
-<a href="{{ url_for('login') }} " class="login-panel">LOG IN</a>
-{% else %}
+<div class="ht-right">
 
-<img src="{{ url_for('static', filename='images/avatars/'+current_user_avatar+'.png')}}"
-                                 width="50"
-                                 height="50">
 
-<a href="{{ url_for('profile') }}" class="username"> {{ current_user.username }}</a>
-<a href="{{ url_for('profile') }}" class="signupbutton">PROFILE</a>
-<a href="{{ url_for('settings') }}" class="signupbutton">SETTINGS</a>
-<a href="{{ url_for('logout') }}" class="signupbutton">LOG OUT</a>
-{% endif %}
+    <div class="login-panel">
+
+        {% if current_user.is_anonymous %}
+
+        <a href="{{ url_for('signup') }} " class="log-btn">SIGN UP</a>
+        <a href="{{ url_for('login') }} " class="log-btn">LOG IN</a>
+
+        {% else %}
+
+        <a href="{{ url_for('logout') }}" class="log-btn">LOG OUT</a>
+        <a href="{{ url_for('settings') }}" class="settings-btn">SETTINGS</a>
+        {% endif %}
+
+    </div>
+
+    {% if current_user.is_anonymous %}
+    {% else %}
+    <div class="login-panel">
+        <a href="{{url_for('profile')}}">
+            <img src="{{ url_for('static', filename='img/avatars/'+current_user_avatar+'.png')}}"
+                 width="40"
+                 height="40">
+        </a>
+        <br>
+        <a href="{{ url_for('profile') }}" class="user-btn"> {{ current_user.username }}</a>
+    </div>
+    {% endif %}
+
+
+</div>
+
+
+
 
 

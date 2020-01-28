@@ -18,9 +18,9 @@
                     </li>
                     <li><a href="{{ url_for('faq')}}">FAQ</a>
                         <ul class="dropdown">
-                            <li><a href="./blog-details.html">General</a></li>
-                            <li><a href="./shopping-cart.html">Points System</a></li>
-                            <li><a href="./shopping-cart.html">Seekers</a></li>
+                           <li><a href="{{ url_for('faq')}}">General</a></li>
+                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
                         </ul>
                     </li>
 
@@ -40,9 +40,9 @@
                     </li>
                     <li><a href="{{ url_for('faq')}}">FAQ</a>
                         <ul class="dropdown">
-                            <li><a href="./blog-details.html">General</a></li>
-                            <li><a href="./shopping-cart.html">Points System</a></li>
-                            <li><a href="./shopping-cart.html">Seekers</a></li>
+                            <li><a href="{{ url_for('faq')}}">General</a></li>
+                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
                         </ul>
                     </li>
 
@@ -62,13 +62,35 @@
                     </li>
                     <li class="active"><a href="{{ url_for('faq')}}">FAQ</a>
                         <ul class="dropdown">
-                            <li><a href="./blog-details.html">General</a></li>
-                            <li><a href="./shopping-cart.html">Points System</a></li>
-                            <li><a href="./shopping-cart.html">Seekers</a></li>
+                           <li><a href="{{ url_for('faq')}}">General</a></li>
+                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
                         </ul>
                     </li>
 
                     <li><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
+
+                    {% elif page == 'leaderboard' %}
+
+                    <li><a href="{{ url_for('index')}}">Home</a></li>
+                    <li><a href="{{ url_for('quest')}}">Quest</a>
+                        <ul class="dropdown">
+                            <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
+                            <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="{{ url_for('seek')}}">Seek</a>
+                    </li>
+                    <li><a href="{{ url_for('faq')}}">FAQ</a>
+                        <ul class="dropdown">
+                            <li><a href="{{ url_for('faq')}}">General</a></li>
+                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="active"><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
 
                     {% else %}
                     <li class="active"><a href="{{ url_for('index')}}">Home</a></li>
@@ -83,9 +105,9 @@
                     </li>
                     <li><a href="{{ url_for('faq')}}">FAQ</a>
                         <ul class="dropdown">
-                            <li><a href="./blog-details.html">General</a></li>
-                            <li><a href="./shopping-cart.html">Points System</a></li>
-                            <li><a href="./shopping-cart.html">Seekers</a></li>
+                          <li><a href="{{ url_for('faq')}}">General</a></li>
+                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
                         </ul>
                     </li>
 

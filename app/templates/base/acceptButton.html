@@ -78,13 +78,16 @@
 
             <!--Not yet accepted quest-->
             {% else %}
+
             <li>
+
                 <form action="{{ url_for('accept', id=qsId) }}" method="post">
                     <button class="primary-btn" type="submit" value=""/>
                     Accept
                     </button>
                 </form>
             </li>
+
 
             {% endif %}<!--end 3rd degree if-->
             {% endif %}<!--end 2nd degree if-->
@@ -100,6 +103,8 @@
             {% endif %}<!--end 1st degree if-->
 
         </ul>
+
+
     </div>
 
 </div>

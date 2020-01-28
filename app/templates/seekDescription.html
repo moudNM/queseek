@@ -52,19 +52,24 @@
                         <h2>SeekID:{{ seeks[1].seekId }}</h2>
                         <p><span> Reward:</span> {{ seeks[1].reward }} coins </p>
                     </div>
-                    <h5>Posted by: {{ seeks[0].username }}</h5>
-                    <h5>Date posted: {{ seeks[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</h5>
-                    <br>
-                    <h4>Item: {{ seeks[1].item }}</h4>
-                    <h4>Location: {{ seeks[1].location }}</h4>
 
-                    <br>
+                    <div class="center-text">
+                        <h5>Posted by: {{ seeks[0].username }}</h5>
+                        <h5>Date posted: {{ seeks[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</h5>
 
-                    <p>{{ seeks[1].description.capitalize() }}</p>
+                        <h5>Item: {{ seeks[1].item }}</h5>
+                        <h5>Location: {{ seeks[1].location }}</h5>
 
-                    <!--Users that completed-->
-                    {% if userscompleted|length > 0 %}
-                    <span>
+                        <br>
+
+                        <p>{{ seeks[1].description.capitalize() }}</p>
+                    </div>
+
+
+                    <div class="center-text">
+                        <!--Users that completed-->
+                        {% if userscompleted|length > 0 %}
+                        <span>
 
                     <h5>Completed By: </h5>
                     {% for row in userscompleted %}
@@ -80,11 +85,14 @@
 
                     {% endif %}
                     </span>
-                    {% with id=seeks[0].id, qsId=seeks[1].seekId, accepted=accepted, usersaccepted=usersaccepted,
-                    completed=completed %}
-                    {% include "base/acceptButton.html" %}
-                    {% endwith %}
+                    </div>
 
+                    <div class="center-button">
+                        {% with id=seeks[0].id, qsId=seeks[1].seekId, accepted=accepted, usersaccepted=usersaccepted,
+                        completed=completed %}
+                        {% include "base/acceptButton.html" %}
+                        {% endwith %}
+                    </div>
 
                     <div class="leave-comment">
                         <h4>Leave A Comment</h4>

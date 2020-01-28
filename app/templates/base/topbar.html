@@ -1,18 +1,20 @@
-<div class="header-top">
-
-        <div class="ht-left">
-            <div class="mail-service">
-                <a href="{{url_for('index')}}">
+<header class="header-section">
+    <div class="header-top">
+        <div class="container">
+            <div class="ht-left">
+                <div class="mail-service">
+                     <a href="{{url_for('index')}}">
                     <img src="{{ url_for('static', filename='img/logo/QueseekBlackOrange.png')}}"
                          alt="QueseekLogo"
-                         width="200">
+                         width="250">
                 </a>
+                </div>
+
             </div>
-        </div>
-        <div class="ht-right">
             {% include "base/loginlogout.html" %}
         </div>
+    </div>
+</header>
 
-</div>
 
 

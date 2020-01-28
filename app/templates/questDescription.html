@@ -52,19 +52,24 @@
                         <h2>QuestID:{{ quests[1].questId }}</h2>
                         <p><span> Reward:</span> {{ quests[1].reward }} coins </p>
                     </div>
-                    <h5>Posted by: {{ quests[0].username }}</h5>
-                    <h5>Date posted: {{ quests[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</h5>
-                    <br>
-                    <h4>Item: {{ quests[1].item }}</h4>
-                    <h4>Location: {{ quests[1].location }}</h4>
 
-                    <br>
+                    <div class="center-text">
+                        <h5>Posted by: {{ quests[0].username }}</h5>
+                        <h5>{{ quests[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</h5>
 
-                    <p>{{ quests[1].description.capitalize() }}</p>
+                        <h5>Item: {{ quests[1].item }}</h5>
+                        <h5>Location: {{ quests[1].location }}</h5>
+                        <br>
 
-                    <!--Users that completed-->
-                    {% if userscompleted|length > 0 %}
-                    <span>
+                        <p>{{ quests[1].description.capitalize() }}</p>
+
+                    </div>
+
+                    <div class="center-text">
+                        <!--Users that completed-->
+                        {% if userscompleted|length > 0 %}
+                        <span>
+
 
                     <h5>Completed By: </h5>
                     {% for row in userscompleted %}
@@ -79,11 +84,18 @@
                     {% endfor %}
 
                     {% endif %}
-                    </span>
-                    {% with id=quests[0].id, qsId=quests[1].questId, accepted=accepted, completed=completed,
-                    usersaccepted=usersaccepted, userscompleted=userscompleted %}
-                    {% include "base/acceptButton.html" %}
-                    {% endwith %}
+                            </span>
+                    </div>
+
+
+                    <div class="center-button">
+
+
+                        {% with id=quests[0].id, qsId=quests[1].questId, accepted=accepted, completed=completed,
+                        usersaccepted=usersaccepted, userscompleted=userscompleted %}
+                        {% include "base/acceptButton.html" %}
+                        {% endwith %}
+                    </div>
 
 
                     <div class="leave-comment">
