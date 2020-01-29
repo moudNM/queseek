@@ -42,129 +42,141 @@
 </header>
 <!-- Header End -->
 
-<!-- Hero Section Begin -->
-<section class="hero-section">
-    <div class="hero-items owl-carousel">
+<!-- Product Shop Section End -->
 
-        <div class="topbar-cover2">
-            <div class="desc">
+<!-- Product Shop Section Begin -->
+<section class="product-shop spad">
 
-                <section class="cd-faq">
 
-                    <div class="cd-faq-categories">
+    <div class="topbar-cover2">
+        <div class="desc">
 
+            <section class="cd-faq">
+
+                <div class="cd-faq-categories">
+
+                    {% if page == 'avatars' %}
+                    <a href="{{url_for('profile_general')}}">General Details</a>
+                    <a class="active" href="{{url_for('profile_avatars')}}">Avatars</a>
+
+                    {% else %}
+                    <a class="active" href="{{url_for('profile_general')}}">General Details</a>
+                    <a href="{{url_for('profile_avatars')}}">Avatars</a>
+                    {% endif %}
+                </div>
+
+                <div class="container">
+                    <div class="row">
                         {% if page == 'avatars' %}
-                        <a href="{{url_for('profile_general')}}">General Details</a>
-                        <a class="active" href="{{url_for('profile_avatars')}}">Avatars</a>
+                        <!-- Shopping Cart Section Begin -->
+                        <section class="shopping-cart spad">
 
-                        {% else %}
-                        <a class="active" href="{{url_for('profile_general')}}">General Details</a>
-                        <a href="{{url_for('profile_avatars')}}">Avatars</a>
-                        {% endif %}
-                    </div>
+                            <div class="blog-details-inner">
+                                <div class="blog-detail-title">
+                                    <h2>Avatars</h2>
+                                    <h5>Coins Balance: {{ userprofile[0].coinsBalance }}</h5>
+                                </div>
+                            </div>
+                            <div class="col-lg-9 order-1 order-lg-2">
 
-                    <!-- Product Shop Section Begin -->
-                    <section class="product-shop spad">
-                        <div class="container">
-                            <div class="row">
-                                {% if page == 'avatars' %}
+                                <div class="product-list">
+                                    <div class="row">
 
+                                        <!--start here-->
+                                        {% for row in avatars %}
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div class="product-item">
+                                                <div class="pi-pic">
+                                                    <img src="{{ url_for('static', filename='img/avatars/'+row.avatarId+'.png')}}"
+                                                         alt="">
 
-                <div class="col-lg-9 order-1 order-lg-2">
-
-                    <div class="product-list">
-                        <div class="row">
-
-                            <!--start here-->
-                            {% for row in avatars %}
-                            <div class="col-lg-3 col-sm-6">
-                                <div class="product-item">
-                                    <div class="pi-pic">
-                                        <img src="{{ url_for('static', filename='img/avatars/'+row.avatarId+'.png')}}"
-                                             alt="">
-
-                                    </div>
-                                    <div class="pi-text">
+                                                </div>
+                                                <div class="pi-text">
 
 
-                                        <h5>{{row.name}}</h5>
+                                                    <h5>{{row.name}}</h5>
 
 
-                                        <div class="product-price">
-                                            <!--if unlocked-->
-                                            {% if row.avatarId in user_avatars %}
-                                            Unlocked
-                                            <form action="{{ url_for('profile_avatars_update', avatarId=row.avatarId) }}"
-                                                  method="post">
-                                                <button class="primary-btn" type="submit" value=""/>
-                                                Use
-                                                </button>
-                                            </form>
-                                            <!--if not unlocked-->
-                                            {% else %}
-                                            {{ row.coinsRequired|string + ' coins'
-                                            }}
-                                            <form action="{{ url_for('profile_avatars_unlock', avatarId=row.avatarId) }}"
-                                                  method="post">
-                                                <button class="primary-btn" type="submit" value=""/>
-                                                Unlock
-                                                </button>
-                                            </form>
-                                            {% endif %}
+                                                    <div class="product-price">
+                                                        <!--if unlocked-->
+                                                        {% if row.avatarId in user_avatars %}
+                                                        Unlocked
+                                                        <form action="{{ url_for('profile_avatars_update', avatarId=row.avatarId) }}"
+                                                              method="post">
+                                                            <button class="unlocked-btn" type="submit" value=""/>
+                                                            Use
+                                                            </button>
+                                                        </form>
+                                                        <!--if not unlocked-->
+                                                        {% else %}
+                                                        {{ row.coinsRequired|string + ' coins'
+                                                        }}
+                                                        <form action="{{ url_for('profile_avatars_unlock', avatarId=row.avatarId) }}"
+                                                              method="post">
+                                                            <button class="primary-btn" type="submit" value=""/>
+                                                            Unlock
+                                                            </button>
+                                                        </form>
+                                                        {% endif %}
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div>
+
+
+                                        {% endfor %}
+
 
                                     </div>
                                 </div>
+
+
                             </div>
+                        </section>
+                        {% else %}
+
+                        <!--header-->
+                        <section class="shopping-cart spad">
+                            <div class="blog-details-inner">
+                                <div class="blog-detail-title">
+                                    <h2>General Details</h2>
+                                    <div class="posted-by">
+
+                                        <h5>Username: {{ user.username }}</h5>
+                                        <h5>Level: {{ userprofile.level }}</h5>
+                                        <h5>Coins to Next Level: {{ userprofile.coinsToNext }}</h5>
+                                        <h5>Coins Balance: {{ userprofile.coinsBalance }}</h5>
+                                        <h5>Coins Collected: {{ userprofile.coinsCollected }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
 
 
-                            {% endfor %}
+                        {% endif %}
 
-
-                        </div>
                     </div>
 
-
-                </div>
-            </div>
-
-            {% else %}
-
-            <div class="blog-details-inner">
-                <div class="blog-detail-title">
-                    <h2>General Details</h2>
-
                 </div>
 
-                <div class="posted-by">
-                    <h5>Username: {{ user.username }}</h5>
-                    <h5>Level: {{ userprofile.level }}</h5>
-                    <h5>Coins to Next Level: {{ userprofile.coinsToNext }}</h5>
-                    <h5>Coins Balance: {{ userprofile.coinsBalance }}</h5>
-                    <h5>Coins Collected: {{ userprofile.coinsCollected }}</h5>
-                </div>
-            </div>
 
-            {% endif %}
-                            </div>
-                        </div>
-                    </section>
-                    <!-- Product Shop Section End -->
-
-
-                    <div class="inlineblock">{% include "base/button.html" %}</div>
-
-                    <!--Your Quests-->
-
-                    <a href="#0" class="cd-close-panel">Close</a>
-                </section>
-
-
-            </div>
+            </section>
         </div>
 
-
     </div>
+
+</section>
+
+
+</section>
+
+
+</div>
+</div>
+
+
+</div>
 </section>
 
 <!-- Js Plugins -->

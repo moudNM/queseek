@@ -45,18 +45,19 @@
 
 <!-- Hero Section Begin -->
 <section class="hero-section">
-    <div class="hero-items owl-carousel">
 
+    <div class="hero-items owl-carousel">
         {% if current_user.is_anonymous %}
         <div class="single-hero-items set-bg" data-setbg="{{ url_for('static', filename='img/HomeCompass.png')}}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-5">
-
+                        <div class="white-txt">
                         <h4>Always losing your belongings?</h4>
                         <h4>Need help running errands?</h4>
                         <h4>Love helping others out?</h4>
                         <h1>Join Us!</h1>
+                            </div>
                         <br>
                         <a href="{{ url_for('signup') }} " class="primary-btn">Sign Up</a>
                     </div>
@@ -71,6 +72,7 @@
                 <section class="cd-faq">
 
                     <div class="cd-faq-categories">
+
 
                         {% if page == 'ys' %}
                         <a href="{{url_for('home_your_quests')}}">Your Quests</a>
@@ -101,6 +103,25 @@
 
                     <!-- Shopping Cart Section Begin -->
                     <section class="shopping-cart spad">
+                        <div class="blog-details-inner">
+                            <div class="blog-detail-title"><h2>
+                                {% if page == 'ys' %}
+                                Your Seeks
+                                {% elif page == 'qa' %}
+                                Quests Accepted
+                                {% elif page == 'sa' %}
+                                Seeks Accepted
+                                {% else %}
+                                Your Quests
+                                {% endif %}
+                            </h2>
+
+                            </div>
+                        </div>
+                        <div class="center-button">
+                            {% include "base/button.html" %}
+                        </div>
+
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -137,7 +158,9 @@
                                                 <td class="cart-pic">{{ row[1].item }}</td>
                                                 <td class="cart-pic">{{ row[1].description }}</td>
                                                 <td class="cart-pic">{{ row[0].username }}</td>
-                                                <td class="cart-pic">{{ row[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</td>
+                                                <td class="cart-pic">{{ row[1].posted_at.strftime('%d/%m/%Y %I:%M %p')
+                                                    }}
+                                                </td>
 
                                             </tr>
 
@@ -153,12 +176,6 @@
                     </section>
                     <!-- Shopping Cart Section End -->
 
-
-                    <div class="inlineblock">{% include "base/button.html" %}</div>
-
-                    <!--Your Quests-->
-
-                    <a href="#0" class="cd-close-panel">Close</a>
                 </section>
 
 

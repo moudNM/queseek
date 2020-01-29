@@ -117,14 +117,16 @@
                         {% for row in comments %}
 
                         <div class="posted-by">
-                            <div class="pb-pic">
-                                <img src="img/blog/post-by.png" alt="">
-                            </div>
 
 
                             <div class="pb-text">
 
-                                <h5>{{row[1].username}}</h5>
+
+                                <img src="{{ url_for('static', filename='img/avatars/'+current_user_avatar+'.png')}}"
+                                     width="40"
+                                     height="40">
+                                {{row[1].username}}
+
 
                                 <p>{{row[0].description.capitalize()}}</p>
                                 <br>
@@ -132,10 +134,6 @@
                             </div>
                         </div>
 
-                        <div class="pb-text">
-                            <h5></h5>
-                            <p></p>
-                        </div>
 
                         {% endfor %}
                     </div>

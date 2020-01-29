@@ -895,10 +895,10 @@ def create():
                    ['0003', 'Rave', 75],
                    ['0004', 'Barry', 50],
                    ['0005', 'McDuck', 75],
-                   ['0006', 'Turdle', 50],
+                   ['0006', 'Coco Jumbo', 50],
                    ['0007', 'Wednesday', 75],
                    ['0008', 'P.Sherman', 50],
-                   ['0009', 'Blutterfly', 75],
+                   ['0009', 'Bluetterfly', 75],
                    ]
 
     for i in avatar_data:

@@ -1,6 +1,5 @@
 <div class="ht-right">
 
-
     <div class="login-panel">
 
         {% if current_user.is_anonymous %}
@@ -24,7 +23,7 @@
                  width="40"
                  height="40">
         </a>
-        <br>
+
         <a href="{{ url_for('profile') }}" class="user-btn"> {{ current_user.username }}</a>
     </div>
     {% endif %}

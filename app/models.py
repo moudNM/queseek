@@ -24,7 +24,7 @@ class UserProfile(UserMixin, Base):
 
     id = db.Column(db.String, ForeignKey('users.id'), primary_key=True)
     level = db.Column(db.Integer, nullable=False, default=1)
-    coinsBalance = db.Column(db.Integer, nullable=False, default=0)
+    coinsBalance = db.Column(db.Integer, nullable=False, default=50)
     coinsCollected = db.Column(db.Integer, nullable=False, default=0)
     coinsToNext = db.Column(db.Integer, nullable=False, default=20)
     avatarId = db.Column(db.String, ForeignKey('Avatars.avatarId'), default='0000')

@@ -1,122 +1,167 @@
 <div class="nav-item">
 
-            <div class="nav-depart">
-
-            </div>
-            <nav class="nav-menu mobile-menu">
-                <ul>
-                    {% if page == 'sq' or page == 'quest' %}
-                    <li><a href="{{ url_for('index')}}">Home</a></li>
-                    <li class="active"><a href="{{ url_for('quest')}}">Quest</a>
-                        <ul class="dropdown">
-                            <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
-                            <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ url_for('seek')}}">Seek</a>
-                    </li>
-                    <li><a href="{{ url_for('faq')}}">FAQ</a>
-                        <ul class="dropdown">
-                           <li><a href="{{ url_for('faq')}}">General</a></li>
-                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
-                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
-
-                    {% elif page == 'seek' %}
-
-                    <li><a href="{{ url_for('index')}}">Home</a></li>
-                    <li><a href="{{ url_for('quest')}}">Quest</a>
-                        <ul class="dropdown">
-                            <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
-                            <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="active"><a href="{{ url_for('seek')}}">Seek</a>
-                    </li>
-                    <li><a href="{{ url_for('faq')}}">FAQ</a>
-                        <ul class="dropdown">
-                            <li><a href="{{ url_for('faq')}}">General</a></li>
-                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
-                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
-
-                    {% elif page == 'faq' or page == 'points_system' or page == 'seekers' %}
-
-                    <li><a href="{{ url_for('index')}}">Home</a></li>
-                    <li><a href="{{ url_for('quest')}}">Quest</a>
-                        <ul class="dropdown">
-                            <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
-                            <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ url_for('seek')}}">Seek</a>
-                    </li>
-                    <li class="active"><a href="{{ url_for('faq')}}">FAQ</a>
-                        <ul class="dropdown">
-                           <li><a href="{{ url_for('faq')}}">General</a></li>
-                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
-                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
-
-                    {% elif page == 'leaderboard' %}
-
-                    <li><a href="{{ url_for('index')}}">Home</a></li>
-                    <li><a href="{{ url_for('quest')}}">Quest</a>
-                        <ul class="dropdown">
-                            <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
-                            <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ url_for('seek')}}">Seek</a>
-                    </li>
-                    <li><a href="{{ url_for('faq')}}">FAQ</a>
-                        <ul class="dropdown">
-                            <li><a href="{{ url_for('faq')}}">General</a></li>
-                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
-                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="active"><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
-
-                    {% else %}
-                    <li class="active"><a href="{{ url_for('index')}}">Home</a></li>
-                    <li><a href="{{ url_for('quest')}}">Quest</a>
-                        <ul class="dropdown">
-                            <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
-                            <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ url_for('seek')}}">Seek</a>
-                    </li>
-                    <li><a href="{{ url_for('faq')}}">FAQ</a>
-                        <ul class="dropdown">
-                          <li><a href="{{ url_for('faq')}}">General</a></li>
-                            <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
-                            <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
-                        </ul>
-                    </li>
-
-                    <li><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
-                    {% endif %}
-
-
-                </ul>
-            </nav>
-            <div id="mobile-menu-wrap"></div>
+    <div class="nav-depart">
 
     </div>
+    <nav class="nav-menu mobile-menu">
+        <ul>
+            {% if page == 'sq' or page == 'quest' %}
+            <li><a href="{{ url_for('index')}}">Home</a>
+                {% if not current_user.is_anonymous %}
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('home_your_quests')}}">Your Quests</a></li>
+                    <li><a href="{{ url_for('home_your_seeks')}}">Your Seeks</a></li>
+                    <li><a href="{{ url_for('home_quests_accepted')}}">Quests Accepted</a></li>
+                    <li><a href="{{ url_for('home_seeks_accepted')}}">Seeks Accepted</a></li>
+                </ul>
+                {% endif %}
+            </li>
+            <li class="active"><a href="{{ url_for('quest')}}">Quest</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
+                    <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
+                </ul>
+            </li>
+
+            <li><a href="{{ url_for('seek')}}">Seek</a>
+            </li>
+            <li><a href="{{ url_for('faq')}}">FAQ</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('faq')}}">General</a></li>
+                    <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                    <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
+                </ul>
+            </li>
+
+            <li><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
+
+            {% elif page == 'seek' %}
+
+            <li><a href="{{ url_for('index')}}">Home</a>
+                {% if not current_user.is_anonymous %}
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('home_your_quests')}}">Your Quests</a></li>
+                    <li><a href="{{ url_for('home_your_seeks')}}">Your Seeks</a></li>
+                    <li><a href="{{ url_for('home_quests_accepted')}}">Quests Accepted</a></li>
+                    <li><a href="{{ url_for('home_seeks_accepted')}}">Seeks Accepted</a></li>
+                </ul>
+                {% endif %}
+            </li>
+            <li><a href="{{ url_for('quest')}}">Quest</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
+                    <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
+                </ul>
+            </li>
+
+            <li class="active"><a href="{{ url_for('seek')}}">Seek</a>
+            </li>
+            <li><a href="{{ url_for('faq')}}">FAQ</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('faq')}}">General</a></li>
+                    <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                    <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
+                </ul>
+            </li>
+
+            <li><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
+
+            {% elif page == 'faq' or page == 'points_system' or page == 'seekers' %}
+
+            <li><a href="{{ url_for('index')}}">Home</a>
+                {% if not current_user.is_anonymous %}
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('home_your_quests')}}">Your Quests</a></li>
+                    <li><a href="{{ url_for('home_your_seeks')}}">Your Seeks</a></li>
+                    <li><a href="{{ url_for('home_quests_accepted')}}">Quests Accepted</a></li>
+                    <li><a href="{{ url_for('home_seeks_accepted')}}">Seeks Accepted</a></li>
+                </ul>
+                {% endif %}
+            </li>
+            <li><a href="{{ url_for('quest')}}">Quest</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
+                    <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
+                </ul>
+            </li>
+
+            <li><a href="{{ url_for('seek')}}">Seek</a>
+            </li>
+            <li class="active"><a href="{{ url_for('faq')}}">FAQ</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('faq')}}">General</a></li>
+                    <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                    <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
+                </ul>
+            </li>
+
+            <li><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
+
+            {% elif page == 'leaderboard' %}
+
+            <li><a href="{{ url_for('index')}}">Home</a>
+                {% if not current_user.is_anonymous %}
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('home_your_quests')}}">Your Quests</a></li>
+                    <li><a href="{{ url_for('home_your_seeks')}}">Your Seeks</a></li>
+                    <li><a href="{{ url_for('home_quests_accepted')}}">Quests Accepted</a></li>
+                    <li><a href="{{ url_for('home_seeks_accepted')}}">Seeks Accepted</a></li>
+                </ul>
+                {% endif %}
+            </li>
+            <li><a href="{{ url_for('quest')}}">Quest</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
+                    <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
+                </ul>
+            </li>
+
+            <li><a href="{{ url_for('seek')}}">Seek</a>
+            </li>
+            <li><a href="{{ url_for('faq')}}">FAQ</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('faq')}}">General</a></li>
+                    <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                    <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
+                </ul>
+            </li>
+
+            <li class="active"><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
+
+            {% else %}
+            <li class="active"><a href="{{ url_for('index')}}">Home</a>
+                {% if not current_user.is_anonymous %}
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('home_your_quests')}}">Your Quests</a></li>
+                    <li><a href="{{ url_for('home_your_seeks')}}">Your Seeks</a></li>
+                    <li><a href="{{ url_for('home_quests_accepted')}}">Quests Accepted</a></li>
+                    <li><a href="{{ url_for('home_seeks_accepted')}}">Seeks Accepted</a></li>
+                </ul>
+                {% endif %}
+            </li>
+            <li><a href="{{ url_for('quest')}}">Quest</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('quest')}}">Hero Quests</a></li>
+                    <li><a href="{{ url_for('side_quests')}}">Side Quests</a></li>
+                </ul>
+            </li>
+
+            <li><a href="{{ url_for('seek')}}">Seek</a>
+            </li>
+            <li><a href="{{ url_for('faq')}}">FAQ</a>
+                <ul class="dropdown">
+                    <li><a href="{{ url_for('faq')}}">General</a></li>
+                    <li><a href="{{ url_for('faq_points_system')}}">Points System</a></li>
+                    <li><a href="{{ url_for('faq_seekers')}}">Seekers</a></li>
+                </ul>
+            </li>
+
+            <li><a href="{{ url_for('leaderboard')}}">Leaderboard</a></li>
+            {% endif %}
+
+
+        </ul>
+    </nav>
+    <div id="mobile-menu-wrap"></div>
+
+</div>

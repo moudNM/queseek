@@ -1,6 +1,5 @@
 .topbar-cover2{
   position: relative;
-  height: 1000px;
 
 }
 
@@ -37,6 +36,8 @@
   .topbar-cover .desc .desc2 {
     display: none;
   }
+
+
 }
 
 
@@ -179,6 +180,8 @@ background-color: #F78536;
 .cd-faq-categories li:last-child a {
   border-bottom: none;
 }
+}
+
 @media only screen and (min-width: 768px) {
   .cd-faq-categories {
     width: 20%;
@@ -204,6 +207,7 @@ background-color: #F78536;
     margin-bottom: 2em;
   }
 }
+
 @media only screen and (min-width: 1024px) {
   .cd-faq-categories {
     display:inline-block;
@@ -487,4 +491,25 @@ background-color: #F78536;
     display: block;
   }
 }
+
+
+
+@media only screen and (max-width: 768px) {
+  .cd-faq-categories {
+
+  }
+  .cd-faq-categories a {
+  color: #ffffff;
+  background:#4e5359;
+  padding: 3px;
+  }
+  .cd-faq-categories .active{
+  color: #ffffff;
+  background:#ff8825;
+  padding: 3px;
+  }
+}
+
+
+
 
