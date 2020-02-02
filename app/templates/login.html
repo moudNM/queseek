@@ -53,6 +53,16 @@
                         <a href="{{ url_for('signup') }}" class="orange-btn">SIGN UP</a>
                     </div>
 
+                    <h6>
+                        <br>
+                        {% if err|length %}
+
+                        Error: {{ err }}
+                        {% endif %}
+
+                    </h6>
+                    <br>
+
 
                     <form action="{{url_for('login')}}" method="post">
                         <div class="group-input">

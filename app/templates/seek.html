@@ -59,7 +59,7 @@
 
                     <!-- Shopping Cart Section Begin -->
                     <section class="shopping-cart spad">
-                          <div class="blog-details-inner">
+                        <div class="blog-details-inner">
                             <div class="blog-detail-title"><h2>
 
                                 Seeks
@@ -98,9 +98,21 @@
                                                     </h5>
                                                 </td>
                                                 <td class="cart-pic">{{ row[1].item }}</td>
-                                                <td class="cart-pic">{{ row[1].description }}</td>
+                                                <td class="cart-pic">
+
+                                                    {% if row[1].description|length > 50 %}
+                                                    {{ row[1].description[:50] + '...' }}
+
+                                                    {% else %}
+                                                    {{ row[1].description }}
+
+                                                    {% endif %}
+
+                                                </td>
                                                 <td class="cart-pic">{{ row[0].username }}</td>
-                                                <td class="cart-pic">{{ row[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</td>
+                                                <td class="cart-pic">{{ row[1].posted_at.strftime('%d/%m/%Y %I:%M %p')
+                                                    }}
+                                                </td>
 
                                             </tr>
 

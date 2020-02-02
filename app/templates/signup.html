@@ -48,11 +48,20 @@
                 <div class="register-form">
                     <h2>Sign Up</h2>
 
-
                     <div class="line">Already a member?
                         <a href="{{url_for('login')}}" class="orange-btn">LOG IN</a>
                     </div>
 
+                    <h6>
+                        Please use lowercase letters and numbers only!
+                        <br>
+                        {% if err|length %}
+
+                        Error: {{ err }}
+                        {% endif %}
+
+                    </h6>
+                    <br>
                     <form action="{{url_for('signup')}}" method="post">
                         <div class="group-input">
                             {{ form.email.label(class_="formlabelformat") }}

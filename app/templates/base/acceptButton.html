@@ -4,8 +4,10 @@
         <!--Quest Creator's View-->
         {% if not current_user.is_authenticated %}<!--1st degree if-->
         <div class="pleaselogin">Please Log In Or Sign Up To Accept Quests or Seeks</div>
-        <a href="{{ url_for('login') }} " class="primary-btn">LOG IN</a>
-        <a href="{{ url_for('signup') }} " class="primary-btn">SIGN UP</a>
+        <div class="center-button">
+            <a href="{{ url_for('login') }} " class="primary-btn">LOG IN</a>
+            <a href="{{ url_for('signup') }} " class="primary-btn">SIGN UP</a>
+        </div>
 
         {% else %}
 

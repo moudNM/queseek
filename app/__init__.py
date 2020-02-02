@@ -151,13 +151,17 @@ def accept(id):
         qa = QuestsAccepted(questId=id, userId=current_user.get_id())
         db.session.add(qa)
         db.session.commit()
+        return redirect(url_for('home_quests_accepted'))
+
 
     elif id.startswith('S'):
 
         sa = SeeksAccepted(seekId=id, userId=current_user.get_id())
         db.session.add(sa)
         db.session.commit()
+        return redirect(url_for('home_quests_accepted'))
     return redirect(url_for('home'))
+
 
 
 @app.route('/forfeit/<id>', methods=["POST"])
@@ -346,11 +350,13 @@ def nextQuest(id):
     comments = (db.session.query(QuestComments, User, UserProfile)
                 .filter(User.id == QuestComments.userId)
                 .filter(User.id == UserProfile.id)
+                .filter(QuestComments.questId == id)
                 .order_by(QuestComments.posted_at.desc())
                 .all()
                 )
-    # print(comments[0])
 
+    # print(comments[0])
+    # print(comments[0][2].avatarId)
     return render_template('questDescription.html', quests=q, id=id,
                            accepted=accepted, completed=completed,
                            usersaccepted=q2, userscompleted=q1, comments=comments,
@@ -459,6 +465,7 @@ def nextSeek(id):
     comments = (db.session.query(SeekComments, User, UserProfile)
                 .filter(User.id == SeekComments.userId)
                 .filter(User.id == UserProfile.id)
+                .filter(SeekComments.seekId == id)
                 .order_by(SeekComments.posted_at.desc())
                 .all())
     # print(comments[0])
@@ -634,7 +641,6 @@ def edit(id):
                 form.location.data = seek.location
                 form.description.data = seek.description
                 return render_template('edit.html', id=id, form=form, code=307)
-
 
 
 @app.route('/faq')
@@ -815,7 +821,7 @@ def login():
 
         # check if user exists in db and if password is correct
         if currUser is None or password != currUser.password:
-            return render_template('login.html', form=form, err="invalid username or password")
+            return render_template('login.html', form=form, err="Invalid username or password.")
         user = currUser
         login_user(user, remember=user)
         flash("Log in successful!")
@@ -838,17 +844,16 @@ def signup():
         # Check if email format correct
         match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
         if match == None:
-            # print('Bad Syntax')
-            return render_template('signup.html', form=form2, err="invalid username or password")
+            return render_template('signup.html', form=form2, err="Invalid username or password.")
         # Check if email and username already in use
         userEmail = User.query.filter_by(email=email).first()
         userUsername = User.query.filter_by(username=username).first()
         if userEmail is not None or userUsername is not None:
-            return render_template('signup.html', form=form2, err="invalid username or password")
+            return render_template('signup.html', form=form2, err="Username/email already exists.")
         # Check if password equals confirm password
         if password != confirm:
             flash('Passwords do not match!')
-            return render_template('signup.html', form=form2, err="invalid username or password")
+            return render_template('signup.html', form=form2, err="Passwords do not match.")
 
         # assign id to user
         already = True
@@ -890,24 +895,20 @@ def logout():
 def create():
     # Create avatar data
     avatar_data = [['0000', 'Eggsy(Default)', 0],
-                   ['0001', 'Wilson', 50],
-                   ['0002', 'Lady', 50],
-                   ['0003', 'Rave', 75],
-                   ['0004', 'Barry', 50],
-                   ['0005', 'McDuck', 75],
-                   ['0006', 'Coco Jumbo', 50],
-                   ['0007', 'Wednesday', 75],
-                   ['0008', 'P.Sherman', 50],
-                   ['0009', 'Bluetterfly', 75],
+                   ['0001', 'Wilson', 25],
+                   ['0002', 'Lady', 25],
+                   ['0003', 'Rave', 50],
+                   ['0004', 'Barry', 25],
+                   ['0005', 'McDuck', 50],
+                   ['0006', 'Coco Jumbo', 25],
+                   ['0007', 'Wednesday', 50],
+                   ['0008', 'P.Sherman', 25],
+                   ['0009', 'Bluetterfly', 50],
                    ]
 
     for i in avatar_data:
         u = Avatars(avatarId=i[0], name=i[1], coinsRequired=i[2])
         db.session.add(u)
-
-    # give money etc
-    # db.session.query(UserProfile).filter(UserProfile.id == current_user.id). \
-    #     update({"coinsBalance": (UserProfile.coinsBalance + 200)})
 
     # user_avatar = UserAvatars(avatarId='0001', userId='U22')
     # db.session.add(user_avatar)
@@ -917,4 +918,13 @@ def create():
     # print(q)
     # print(q[0].name, q[0].avatarId)
     # return (str(q))
-    return ('beep')
+    return ('avatars added')
+
+
+@app.route('/money')
+def money():
+    # give money etc
+    db.session.query(UserProfile).filter(UserProfile.id == current_user.id). \
+    update({"coinsBalance": (UserProfile.coinsBalance + 200)})
+    db.session.commit()
+    return ('money given')

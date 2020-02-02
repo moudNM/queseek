@@ -20,8 +20,7 @@
     <div class="login-panel">
         <a href="{{url_for('profile')}}">
             <img src="{{ url_for('static', filename='img/avatars/'+current_user_avatar+'.png')}}"
-                 width="40"
-                 height="40">
+                 width="50">
         </a>
 
         <a href="{{ url_for('profile') }}" class="user-btn"> {{ current_user.username }}</a>

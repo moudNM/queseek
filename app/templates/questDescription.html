@@ -54,14 +54,20 @@
                     </div>
 
                     <div class="center-text">
-                        <h5>Posted by: {{ quests[0].username }}</h5>
-                        <h5>{{ quests[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</h5>
+                        <h6>Posted by: {{ quests[0].username }}</h6>
+                        <h6>{{ quests[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</h6>
+
+                        <br>
 
                         <h5>Item: {{ quests[1].item }}</h5>
                         <h5>Location: {{ quests[1].location }}</h5>
+
                         <br>
 
-                        <p>{{ quests[1].description.capitalize() }}</p>
+                        <p>
+                            {{ quests[1].description }}
+
+                        </p>
 
                     </div>
 
@@ -122,13 +128,12 @@
                             <div class="pb-text">
 
 
-                                <img src="{{ url_for('static', filename='img/avatars/'+current_user_avatar+'.png')}}"
+                                <img src="{{ url_for('static', filename='img/avatars/'+row[2].avatarId+'.png')}}"
                                      width="40"
                                      height="40">
                                 {{row[1].username}}
 
-
-                                <p>{{row[0].description.capitalize()}}</p>
+                                <p>{{row[0].description}}</p>
                                 <br>
                                 <h6>{{row[0].posted_at.strftime('%d/%m/%Y %I:%M %p')}}</h6>
                             </div>

@@ -51,6 +51,10 @@
                     {% if page == 'sf'%}
                     <h2>SUBMIT A SEEK</h2>
 
+                    <div class="line"><h5>Want to report a lost item or list an errand instead?</h5>
+                        <a href="{{url_for('login')}}" class="orange-btn">Post Quest</a>
+                    </div>
+
                     <form action="{{url_for('forms_seek')}}" method="post" class="comment-form">
                         <div class="group-input">
                             {{ form.item.label(class_="formlabelformat") }}
