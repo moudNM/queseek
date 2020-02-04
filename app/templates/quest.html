@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Queseek</title>
-
+    {% include "base/icon.html" %}
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
@@ -56,12 +56,12 @@
                     <div class="cd-faq-categories">
 
                         {% if page == 'sq' %}
-                    <a href="{{url_for('hero_quests')}}">Hero Quests</a>
-                    <a class="active" href="{{url_for('side_quests')}}">Side Quests</a>
+                        <a href="{{url_for('hero_quests')}}">Hero Quests</a>
+                        <a class="active" href="{{url_for('side_quests')}}">Side Quests</a>
 
-                    {% else %}
-                    <a class="active" href="{{url_for('hero_quests')}}">Hero Quests</a>
-                    <a href="{{url_for('side_quests')}}">Side Quests</a>
+                        {% else %}
+                        <a class="active" href="{{url_for('hero_quests')}}">Hero Quests</a>
+                        <a href="{{url_for('side_quests')}}">Side Quests</a>
 
                         {% endif %}
                     </div>
@@ -122,7 +122,9 @@
 
                                                 </td>
                                                 <td class="cart-pic">{{ row[0].username }}</td>
-                                                <td class="cart-pic">{{ row[1].posted_at.strftime('%d/%m/%Y %I:%M %p') }}</td>
+                                                <td class="cart-pic">{{ row[1].posted_at.strftime('%d/%m/%Y %I:%M %p')
+                                                    }}
+                                                </td>
 
                                             </tr>
 
