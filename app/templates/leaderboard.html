@@ -69,12 +69,11 @@
                                                 <th>Rank</th>
                                                 <th>Profile</th>
                                                 <th>Q Coins</th>
-                                                <th>Completed</th>
+                                                <th>Quests Completed</th>
+                                                <th>Seeks Completed</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-
-
 
 
                                             {% for row in query %}
@@ -82,7 +81,22 @@
                                                 <td class="cart-pic"><h5>{{ loop.index0 + 1 }}</h5></td>
                                                 <td class="cart-pic">{{ row[0].username}}</td>
                                                 <td class="cart-pic">{{ row[1].coinsCollected }}</td>
-                                                <td class="cart-pic">{{ row[2] }}</td>
+                                                <td class="cart-pic">
+                                                    {% if row[2] == None %}
+                                                    {{ 0 }}
+                                                    {% else %}
+                                                    {{ row[2] }}
+
+                                                    {% endif %}
+                                                </td>
+                                                <td class="cart-pic">
+                                                    {% if row[3] == None %}
+                                                    {{ 0 }}
+                                                    {% else %}
+                                                    {{ row[3] }}
+
+                                                    {% endif %}
+                                                </td>
 
 
                                             </tr>

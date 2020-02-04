@@ -16,7 +16,7 @@ class User(UserMixin, Base):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     username = db.Column(db.String(255), unique=True, nullable=False)
-    created_at = db.Column(DateTime(timezone=True), default=datetime.now(pytz.timezone('Asia/Singapore')))
+    created_at = db.Column(DateTime(timezone=True))
 
 
 class UserProfile(UserMixin, Base):
@@ -39,7 +39,7 @@ class Quest(UserMixin, Base):
     location = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255))
     userId = db.Column(db.String, ForeignKey('users.id'), primary_key=True)
-    posted_at = db.Column(DateTime(timezone=True), default=datetime.now(pytz.timezone('Asia/Singapore')))
+    posted_at = db.Column(DateTime(timezone=True))
 
     # State of quest. 0 for active, 1 for completed, 2 for deleted
     state = db.Column(db.Integer, nullable=False, default=0)
@@ -63,7 +63,7 @@ class Seek(UserMixin, Base):
     userId = db.Column(db.String, ForeignKey('users.id'), primary_key=True)
     # 0 is active, 1 is completed, 2 is deleted/incomplete
     state = db.Column(db.Integer, nullable=False, default=0)
-    posted_at = db.Column(DateTime(timezone=True), default=datetime.now(pytz.timezone('Asia/Singapore')))
+    posted_at = db.Column(DateTime(timezone=True))
 
 
 class QuestsAccepted(UserMixin, Base):
@@ -86,7 +86,7 @@ class QuestCoinsTransaction(UserMixin, Base):
     questId = db.Column(db.String, ForeignKey('quests.questId'), primary_key=True)
     userId = db.Column(db.String, ForeignKey('users.id'), primary_key=True)
     coins = db.Column(db.Integer, nullable=False, default=0)
-    completed_at = db.Column(DateTime(timezone=True), default=datetime.now(pytz.timezone('Asia/Singapore')))
+    completed_at = db.Column(DateTime(timezone=True))
 
 
 class SeekCoinsTransaction(UserMixin, Base):
@@ -95,7 +95,7 @@ class SeekCoinsTransaction(UserMixin, Base):
     seekId = db.Column(db.String, ForeignKey('seeks.seekId'), primary_key=True)
     userId = db.Column(db.String, ForeignKey('users.id'), primary_key=True)
     coins = db.Column(db.Integer, nullable=False, default=0)
-    completed_at = db.Column(DateTime(timezone=True), default=datetime.now(pytz.timezone('Asia/Singapore')))
+    completed_at = db.Column(DateTime(timezone=True))
 
 
 class QuestComments(UserMixin, Base):
@@ -108,7 +108,7 @@ class QuestComments(UserMixin, Base):
     description = db.Column(db.String(255), nullable=False)
     # 0 is false, # 1 is true
     is_creator = db.Column(db.Integer, nullable=False, default=0)
-    posted_at = db.Column(DateTime(timezone=True), default=datetime.now(pytz.timezone('Asia/Singapore')))
+    posted_at = db.Column(DateTime(timezone=True))
 
 
 class SeekComments(UserMixin, Base):
@@ -121,7 +121,7 @@ class SeekComments(UserMixin, Base):
     description = db.Column(db.String(255))
     # 0 is false, # 1 is true
     is_creator = db.Column(db.Integer, nullable=False, default=0)
-    posted_at = db.Column(DateTime(timezone=True), default=datetime.now(pytz.timezone('Asia/Singapore')))
+    posted_at = db.Column(DateTime(timezone=True))
 
 
 class Avatars(UserMixin, Base):

@@ -6,6 +6,8 @@ from flask_login import LoginManager, UserMixin, current_user, login_user, logou
 import random
 import re
 from sqlalchemy import desc, asc
+from datetime import datetime
+import pytz
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
@@ -82,7 +84,8 @@ def complete(id):
             reward = q.reward
 
             # add user to questsCompleted table
-            questTransaction = QuestCoinsTransaction(questId=id, userId=user.id, coins=reward)
+            questTransaction = QuestCoinsTransaction(questId=id, userId=user.id, coins=reward,
+                                                     completed_at=datetime.now(pytz.timezone('Asia/Singapore')))
             db.session.add(questTransaction)
             db.session.commit()
 
@@ -115,7 +118,8 @@ def complete(id):
             q = Seek.query.filter_by(seekId=id).first()
 
             # add user to questsCompleted table
-            seekTransaction = SeekCoinsTransaction(seekId=id, userId=user.id)
+            seekTransaction = SeekCoinsTransaction(seekId=id, userId=current_user.id,
+                                                   completed_at=datetime.now(pytz.timezone('Asia/Singapore')))
             db.session.add(seekTransaction)
             db.session.commit()
 
@@ -159,9 +163,8 @@ def accept(id):
         sa = SeeksAccepted(seekId=id, userId=current_user.get_id())
         db.session.add(sa)
         db.session.commit()
-        return redirect(url_for('home_quests_accepted'))
+        return redirect(url_for('home_seeks_accepted'))
     return redirect(url_for('home'))
-
 
 
 @app.route('/forfeit/<id>', methods=["POST"])
@@ -355,6 +358,9 @@ def nextQuest(id):
                 .all()
                 )
 
+    for i in comments:
+        print('comments', i[0].posted_at)
+
     # print(comments[0])
     # print(comments[0][2].avatarId)
     return render_template('questDescription.html', quests=q, id=id,
@@ -384,7 +390,7 @@ def questComment():
                 already = False
 
         qc = QuestComments(commentId=commentId, questId=questId, userId=userId, description=description,
-                           is_creator=is_creator)
+                           is_creator=is_creator, posted_at=datetime.now(pytz.timezone('Asia/Singapore')))
         db.session.add(qc)
         db.session.commit()
         return redirect(url_for('nextQuest', id=questId))
@@ -496,7 +502,7 @@ def seekComment():
                 already = False
 
         sc = SeekComments(commentId=commentId, seekId=seekId, userId=userId, description=description,
-                          is_creator=is_creator)
+                          is_creator=is_creator, posted_at=datetime.now(pytz.timezone('Asia/Singapore')))
         db.session.add(sc)
         db.session.commit()
     return redirect(url_for('nextSeek', id=seekId))
@@ -530,11 +536,11 @@ def forms_quest():
         description = request.form['description']
         type = request.form['type']
         user = User.query.filter_by(id=current_user.get_id()).first()
-        print('here', item)
+
         quest = Quest(questId=questId, reward=reward,
                       item=item, location=location,
                       description=description, userId=user.id,
-                      type=type)
+                      type=type, posted_at=datetime.now(pytz.timezone('Asia/Singapore')))
         db.session.add(quest)
         db.session.commit()
         return redirect(url_for('nextQuest', id=questId, code=307))
@@ -570,10 +576,10 @@ def forms_seek():
         location = request.form['location']
         description = request.form['description']
         user = User.query.filter_by(id=current_user.get_id()).first()
-        print('here', item)
+
         seek = Seek(seekId=seekId, reward=reward,
                     item=item, location=location,
-                    description=description, userId=user.id)
+                    description=description, userId=user.id, posted_at=datetime.now(pytz.timezone('Asia/Singapore')))
         db.session.add(seek)
         db.session.commit()
         return redirect(url_for('nextSeek', id=seekId, code=307))
@@ -610,7 +616,7 @@ def edit(id):
                 return redirect(url_for('nextQuest', id=id, code=307))
 
             elif id.startswith('S'):
-                print('here')
+
                 # make changes to Seek
                 db.session.query(Seek) \
                     .filter(Seek.seekId == id). \
@@ -670,11 +676,18 @@ def leaderboard():
           .group_by(User.id)
           .filter(User.id == QuestCoinsTransaction.userId)
           )
+    q2 = q1.subquery()
+
+    s1 = (db.session.query(User, func.count(SeekCoinsTransaction.seekId).label('amt'))
+          .group_by(User.id)
+          .filter(User.id == SeekCoinsTransaction.userId)
+          )
+    s2 = s1.subquery()
 
     # combine counts with user,userprofile
-    q1s = q1.subquery()
-    q2 = (db.session.query(User, UserProfile, q1s.c.amt)
-          .outerjoin(q1s, User.id == q1s.c.id)
+    q2 = (db.session.query(User, UserProfile, q2.c.amt, s2.c.amt)
+          .outerjoin(q2, User.id == q2.c.id)
+          .outerjoin(s2, User.id == s2.c.id)
           .filter(User.id == UserProfile.id)
           .order_by(UserProfile.coinsCollected.desc())
           .all()
@@ -798,7 +811,6 @@ def settings():
             .filter(User.id == user.id). \
             update({"email": email})
 
-        print('here', current_user.username)
         db.session.commit()
         return redirect(url_for('settings'))
     else:
@@ -867,7 +879,9 @@ def signup():
             if idcheck is None:
                 already = False
 
-        user = User(id=id, email=email, password=password, username=username)
+        user = User(id=id, email=email, password=password, username=username,
+                    created_at=datetime.now(pytz.timezone('Asia/Singapore'))
+                    )
         userprofile = UserProfile(id=id)
         user_avatar = UserAvatars(avatarId='0000', userId=id)
         login_user(user, remember=user)
@@ -891,40 +905,67 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/create')
-def create():
-    # Create avatar data
-    avatar_data = [['0000', 'Eggsy(Default)', 0],
-                   ['0001', 'Wilson', 25],
-                   ['0002', 'Lady', 25],
-                   ['0003', 'Rave', 50],
-                   ['0004', 'Barry', 25],
-                   ['0005', 'McDuck', 50],
-                   ['0006', 'Coco Jumbo', 25],
-                   ['0007', 'Wednesday', 50],
-                   ['0008', 'P.Sherman', 25],
-                   ['0009', 'Bluetterfly', 50],
-                   ]
-
-    for i in avatar_data:
-        u = Avatars(avatarId=i[0], name=i[1], coinsRequired=i[2])
-        db.session.add(u)
-
-    # user_avatar = UserAvatars(avatarId='0001', userId='U22')
-    # db.session.add(user_avatar)
-    db.session.commit()
+# @app.route('/create')
+# def create():
+#     # Create avatar data
+#     avatar_data = [['0000', 'Eggsy(Default)', 0],
+#                    ['0001', 'Wilson', 25],
+#                    ['0002', 'Lady', 25],
+#                    ['0003', 'Rave', 50],
+#                    ['0004', 'Barry', 25],
+#                    ['0005', 'McDuck', 50],
+#                    ['0006', 'Coco Jumbo', 25],
+#                    ['0007', 'Wednesday', 50],
+#                    ['0008', 'P.Sherman', 25],
+#                    ['0009', 'Bluetterfly', 50],
+#                    ]
+#
+#     for i in avatar_data:
+#         u = Avatars(avatarId=i[0], name=i[1], coinsRequired=i[2])
+#         db.session.add(u)
+#
+#     # user_avatar = UserAvatars(avatarId='0001', userId='U22')
+#     # db.session.add(user_avatar)
+#     db.session.commit()
 
     # q = db.session.query(Avatars).all()
     # print(q)
     # print(q[0].name, q[0].avatarId)
     # return (str(q))
-    return ('avatars added')
+    # return ('avatars added')
+
+# @app.route('/money')
+# def money():
+#     # give money etc
+#     db.session.query(UserProfile).filter(UserProfile.id == current_user.id). \
+#         update({"coinsBalance": (UserProfile.coinsBalance + 200)})
+#     db.session.commit()
+#     return ('money given')
+#
+#
+# @app.route('/scrubComments')
+# def scrub():
+#     # give money etc
+#     # db.session.query(SeekComments) \
+#     #     .filter(SeekComments.seekId == 'S9343') \
+#     #     .filter(SeekComments.userId == current_user.id) \
+#     #     .delete()
+#     db.session.query(SeekCoinsTransaction) \
+#         .filter(SeekCoinsTransaction.userId == current_user.id) \
+#         .delete()
+#
+#
+#     db.session.commit()
+#     return ('comments deleted')
 
 
-@app.route('/money')
-def money():
-    # give money etc
-    db.session.query(UserProfile).filter(UserProfile.id == current_user.id). \
-    update({"coinsBalance": (UserProfile.coinsBalance + 200)})
-    db.session.commit()
-    return ('money given')
+# @app.route('/deleteUser')
+# def delete_user():
+#     if (not current_user.is_anonymous):
+#         # delete user
+#         db.session.query(User) \
+#             .filter(User.id == current_user.id) \
+#             .delete()
+#
+#         db.session.commit()
+#     return ('user deleted')
