@@ -355,9 +355,7 @@ ol {
 	font-size: 16px;
 	color: #252525;
 	float: left;
-	padding-top: 7px;
-	padding-bottom: 7px;
-	padding-right: 20px;
+	padding: 15px;
 }
 
 .header-top .ht-left .mail-service i {
@@ -4094,7 +4092,7 @@ ol {
 	}
 	.header-top .ht-left,
 	.header-top .top-social {
-		display: none;
+
 	}
 	.header-top .ht-right .login-panel {
 		padding-top: 9px;
@@ -4126,7 +4124,7 @@ ol {
 		padding: 14px 50px 14px 18px;
 	}
 	.nav-item {
-		background: transparent;
+
 	}
 	.nav-item .nav-menu {
 		display: none;
@@ -4135,7 +4133,7 @@ ol {
 		display: block;
 		background: transparent;
 		text-align: center;
-		margin-top: -62px;
+
 	}
 	.slicknav_nav {
 		background: #333;
